@@ -42,6 +42,8 @@
         <activity
             android:name=".activities.WeeklyRunningActivity"
             android:label="@string/title_activity_weekly_running" />
+        <activity android:name=".activities.TimeOutActivity" />
+        <activity android:name=".activities.RunningActivity"></activity>
     </application>
 
 </manifest>

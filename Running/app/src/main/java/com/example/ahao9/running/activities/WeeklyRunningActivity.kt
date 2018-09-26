@@ -6,9 +6,12 @@ import android.util.DisplayMetrics
 import android.widget.AdapterView
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.listview_option
+import com.example.ahao9.running.R.id.totalKmTextView
 import com.example.ahao9.running.adapters.ListOptionAdapter
 import com.example.ahao9.running.utils.CircularRingPercentageView
 import kotlinx.android.synthetic.main.activity_weekly_running.*
+import org.jetbrains.anko.startActivity
 import java.util.ArrayList
 
 class WeeklyRunningActivity : Activity() {
@@ -56,6 +59,8 @@ class WeeklyRunningActivity : Activity() {
                 */
             }
         }
+
+        startRunningBtn.setOnClickListener { startActivity<TimeOutActivity>() }
 
     }
 
