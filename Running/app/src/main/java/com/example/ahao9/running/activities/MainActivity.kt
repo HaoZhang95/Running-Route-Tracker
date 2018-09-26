@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
-    private lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +48,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        /*mMap = googleMap
 
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+
+        val position = LatLng(37.77493, -122.41942)
+        googleMap.addMarker(MarkerOptions().position(position).title("Marker in Sydney"))
+
+        //zoom to position with level 10f
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 10f)
+        googleMap.animateCamera(cameraUpdate)
     }
 
     override fun onBackPressed() {
