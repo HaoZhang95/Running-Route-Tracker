@@ -17,7 +17,6 @@ import com.example.ahao9.running.utils.RunningDataUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import kotlinx.android.synthetic.main.activity_running.*
 import org.jetbrains.anko.startActivity
@@ -38,7 +37,6 @@ class RunningActivity : Activity(), OnMapReadyCallback, GoogleMap.OnMyLocationBu
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_running)
-
         mapInRunningActivity.onCreate(savedInstanceState);
         mapInRunningActivity.getMapAsync(this)
 

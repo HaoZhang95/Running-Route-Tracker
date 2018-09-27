@@ -6,6 +6,10 @@
 
     <!--lock screen background-->
     <color name="transparent">#00000000</color>
+    <!--connect ble page-->
+    <color name="colorMainViewCardBackground">#302e3c</color>
+    <color name="colorMainViewBackground">#737083</color>
+    <color name="colorText">#FFF</color>
 
     <!--CircularRing-->
     <declare-styleable name="CircularRing">

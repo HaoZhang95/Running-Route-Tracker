@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.startActivity
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -110,13 +111,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 getLocationPermission()
             }
 
+            val polyline = mMap.addPolyline(PolylineOptions().add(LatLng(-34.747, 145.592),
+                    LatLng(-34.364, 147.891), LatLng(-33.501, 150.217),
+                    LatLng(-32.306, 149.248), LatLng(-32.491, 147.309)
+            ))
+
+            // Store a data object with the polyline, used here to indicate an arbitrary type.
+            polyline.tag = "A";
+            // stylePolyline(polyline)
+
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message)
         }
-
     }
+
+
+    private val COLOR_BLACK_ARGB = 0xff000000;
+    private val POLYLINE_STROKE_WIDTH_PX = 12f;
+    private fun stylePolyline(polyline: Polyline) {
+        var type = ""
+        // Get the data object stored with the polyline.
+        if (polyline.tag != null) {
+            type = polyline.tag.toString();
+        }
+
+        when (type) {
+            // If no type is given, allow the API to use the default.
+            "A" -> {
+                // Use a custom bitmap as the cap at the start of the line.
+                polyline.startCap = CustomCap(
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow), 10f);
+            }
+                // Use a round cap at the start of the line.
+                //polyline.setStartCap(RoundCap());
+        }
+        polyline.endCap = RoundCap();
+        polyline.width = POLYLINE_STROKE_WIDTH_PX;
+        polyline.color = COLOR_BLACK_ARGB.toInt();
+        polyline.jointType = JointType.ROUND;
+    }
+
+
 
     override fun onMyLocationClick(location: Location) {
         Log.e(TAG, "latitude: ${location.latitude} --- longitude: ${location.longitude}")
