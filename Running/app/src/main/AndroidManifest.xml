@@ -43,7 +43,11 @@
             android:name=".activities.WeeklyRunningActivity"
             android:label="@string/title_activity_weekly_running" />
         <activity android:name=".activities.TimeOutActivity" />
-        <activity android:name=".activities.RunningActivity"></activity>
+        <activity android:name=".activities.RunningActivity" />
+        <activity
+            android:name=".activities.LockScreenActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
     </application>
 
 </manifest>

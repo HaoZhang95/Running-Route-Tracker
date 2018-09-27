@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- "oneshot="false" represents whether to show only once, set to false will continue to loop animation-->
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false"
+    >
+    <item android:drawable="@drawable/lock1" android:duration="200"></item>
+    <item android:drawable="@drawable/lock2" android:duration="200"></item>
+    <item android:drawable="@drawable/lock3" android:duration="200"></item>
+    <item android:drawable="@drawable/lock4" android:duration="200"></item>
+    <item android:drawable="@drawable/lock5" android:duration="200"></item>
+</animation-list>
