@@ -29,8 +29,6 @@ class LockScreenActivity : Activity() {
         if (x > iv_unlock.x && x < unlockX && y > iv_unlock.y && y < unlockY) {
             return true
         }
-        Log.e(TAG, "unlockX: $unlockX , unlockY: $unlockY")
-        Log.e(TAG, "X:" + iv_unlock.x + ",Y:" + iv_unlock.y)
         return false
     }
 
@@ -52,8 +50,10 @@ class LockScreenActivity : Activity() {
         return false
     }
 
+    /**
+     * comment the following line, to stop user pressing back button
+     */
     override fun onBackPressed() {
-        // comment the following line, to stop user pressing back button
         // super.onBackPressed()
     }
 }
