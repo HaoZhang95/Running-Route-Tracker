@@ -59,11 +59,11 @@ class BMIFragment: Fragment() {
     }
 
     private fun initViews() {
-        iv_editBMI.setOnClickListener { refreshData() }
-        iv_bmi_level.setOnClickListener { refreshData() }
+        ivBmiEdit.setOnClickListener { refreshData() }
+        ivBmiLevel.setOnClickListener { refreshData() }
 
         bmiViewModel = ViewModelProviders.of(this).get(BMIViewModel::class.java)
-        lastWeight = tv_weight.text.toString()
+        lastWeight = tvBmiWeight.text.toString()
 
         fulfillValues()
         bmiLineChart.isViewportCalculationEnabled = false
@@ -75,38 +75,38 @@ class BMIFragment: Fragment() {
         val bmiValue = weight / (height * height)
         val decimalFormat = DecimalFormat("0.00")
         val bmiStr = decimalFormat.format(bmiValue)
-        tv_bmi_value.text = bmiStr
+        tvBmiValue.text = bmiStr
 
         if (bmiValue < 18.5) {
-            iv_bmi_level.setImageResource(R.drawable.bmi_1)
-            tv_bmi_level.text = getString(R.string.bmiSlim)
+            ivBmiLevel.setImageResource(R.drawable.bmi_1)
+            tvBmiLevel.text = getString(R.string.bmiSlim)
             setTextColor(bmiLevelColor[0])
         } else if ((bmiValue >= 18.5) and (bmiValue < 24)) {
-            iv_bmi_level.setImageResource(R.drawable.bmi_2)
-            tv_bmi_level.text = getString(R.string.bmiHealthy)
+            ivBmiLevel.setImageResource(R.drawable.bmi_2)
+            tvBmiLevel.text = getString(R.string.bmiHealthy)
             setTextColor(bmiLevelColor[1])
         } else if (bmiValue >= 24 && bmiValue < 30) {
-            iv_bmi_level.setImageResource(R.drawable.bmi_3)
-            tv_bmi_level.text = getString(R.string.bmiOverweight)
+            ivBmiLevel.setImageResource(R.drawable.bmi_3)
+            tvBmiLevel.text = getString(R.string.bmiOverweight)
             setTextColor(bmiLevelColor[2])
         } else {
-            iv_bmi_level.setImageResource(R.drawable.bmi_4)
-            tv_bmi_level.text = getString(R.string.bmiObses)
+            ivBmiLevel.setImageResource(R.drawable.bmi_4)
+            tvBmiLevel.text = getString(R.string.bmiObses)
             setTextColor(bmiLevelColor[3])
         }
     }
 
     private fun setTextColor(colorStr: String) {
-        tv_bmi_value.setTextColor(Color.parseColor(colorStr))
-        tv_bmi_level.setTextColor(Color.parseColor(colorStr))
+        tvBmiValue.setTextColor(Color.parseColor(colorStr))
+        tvBmiLevel.setTextColor(Color.parseColor(colorStr))
     }
 
     private fun setUpParameters(deltWeight: Double, myWeight: Double, myHeight: Double, time: Long) {
-        iv_weight_how_change.setImageResource(if (deltWeight > 0) R.drawable.icon_arrow_up else R.drawable.icon_arrow_down)
-        tv_height.text = myHeight.toString()
-        tv_weight.text = myWeight.toString()
-        tv_update_time.text = Tools.getSimpleDate(time)
-        tv_delt_weight.text = Math.abs(deltWeight).toString()
+        ivBmiWeightChange.setImageResource(if (deltWeight > 0) R.drawable.icon_arrow_up else R.drawable.icon_arrow_down)
+        tvBmiHeight.text = myHeight.toString()
+        tvBmiWeight.text = myWeight.toString()
+        tvBmiTime.text = Tools.getSimpleDate(time)
+        tvBmiDeltWeight.text = Math.abs(deltWeight).toString()
     }
 
     private fun refreshViewport() {
