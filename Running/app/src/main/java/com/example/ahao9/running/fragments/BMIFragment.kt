@@ -30,6 +30,10 @@ import com.example.ahao9.running.database.entity.BMIEntity
  */
 class BMIFragment: Fragment() {
 
+    private lateinit var lastWeight: String
+    private lateinit var bmiViewModel:BMIViewModel
+    private lateinit var data: LineChartData
+
     private val numberOfLines = 1
     private val maxNumberOfLines = 4
     private val numberOfPoints = 10
@@ -39,9 +43,6 @@ class BMIFragment: Fragment() {
     private val hasLabels = false
     private val isCubic = false
     private val hasLabelForSelected = false
-    private lateinit var lastWeight: String
-    private lateinit var bmiViewModel:BMIViewModel
-    private lateinit var data: LineChartData
     private val shape = ValueShape.CIRCLE
     private var size0fDotValueArr:Int = 0
     private var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
@@ -207,8 +208,8 @@ class BMIFragment: Fragment() {
         myDiglogBuilder.setView(dialogView)
         myDiglogBuilder.setPositiveButton("Confirm") { _, _ ->
 
-            val heightEt = dialogView.findViewById(R.id.et_height) as EditText
-            val weightEt = dialogView.findViewById(R.id.et_weight) as EditText
+            val heightEt = dialogView.findViewById(R.id.etBmiHeight) as EditText
+            val weightEt = dialogView.findViewById(R.id.etBmiWeight) as EditText
 
             if ( heightEt.text.trim().isNotEmpty() && weightEt.text.trim().isNotEmpty()) {
 

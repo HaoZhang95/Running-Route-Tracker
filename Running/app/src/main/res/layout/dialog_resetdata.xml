@@ -12,21 +12,21 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/et_weight"
-            android:layout_width="100dp"
+            android:id="@+id/etBmiWeight"
+            android:layout_width="120dp"
             android:layout_height="40dp"
             android:background="@drawable/et_hw_bac"
-            android:hint="体重(斤)"
+            android:hint="Weight (kg)"
             android:inputType="number"
             android:textColorHint="#bbb" />
 
         <EditText
-            android:id="@+id/et_height"
-            android:layout_width="100dp"
+            android:id="@+id/etBmiHeight"
+            android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_marginLeft="12dp"
             android:background="@drawable/et_hw_bac"
-            android:hint="身高"
+            android:hint="Height (cm)"
             android:inputType="number"
             android:textColorHint="#bbb" />
 

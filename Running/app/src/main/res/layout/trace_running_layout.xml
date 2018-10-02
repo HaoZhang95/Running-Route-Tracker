@@ -3,11 +3,11 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="#36353a"
+              android:background="@color/colorPrimary"
               android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/bottomLayoutToplayout"
+        android:id="@+id/llRunningBottomLayoutTopPart"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal">
@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/bottomTV_Distance"
+                android:id="@+id/tvRunningDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00KM"
@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="距离"
+                android:text="Distance"
                 android:textColor="#ffffff"
                 android:textSize="12sp"
                 />
@@ -47,7 +47,7 @@
             android:orientation="vertical">
 
             <Chronometer
-                android:id="@+id/bottomTv_Time"
+                android:id="@+id/tvRunningTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00:00"
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间"
+                android:text="Time"
                 android:textColor="#ffffff"
                 android:textSize="12sp"
                 />
@@ -72,7 +72,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/floatlayout"
+        android:id="@+id/llRunningBottomLayoutBottomPart"
         android:layout_height="wrap_content"
         android:visibility="visible"
         android:orientation="vertical">
@@ -92,7 +92,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/bottomTv_Speed"
+                    android:id="@+id/tvRunningSpeed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.00"
@@ -103,13 +103,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前速度(km/h)"
+                    android:text="Current speed(km/h)"
                     android:textColor="#c0c0c0"
                     android:textSize="11sp"
                     />
 
                 <TextView
-                    android:id="@+id/bottomTv_AverageSpeed"
+                    android:id="@+id/tvRunningAverageSpeed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -121,8 +121,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="平均速度(km/h)"
-                    android:textColor="#ffffff"
+                    android:text="Average speed(km/h)"
+                    android:textColor="#c0c0c0"
                     android:textSize="11sp"
                     />
 
@@ -138,7 +138,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/bottomTv_Peisu"
+                    android:id="@+id/tvRunningPeisu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00:00"
@@ -149,13 +149,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="配速"
+                    android:text="@string/peisu"
                     android:textColor="#c0c0c0"
                     android:textSize="11sp"
                     />
 
                 <TextView
-                    android:id="@+id/bottomTv_Altitude"
+                    android:id="@+id/tvRunningAltitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -167,7 +167,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="海拔(m)"
+                    android:text="Altitude(m)"
                     android:textColor="#c0c0c0"
                     android:textSize="11sp"
                     />
@@ -181,17 +181,17 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/bottomBt_Lock"
+                android:id="@+id/tvRunningLock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
-                android:text="锁屏"
+                android:text="Lock"
                 android:textColor="#ffffff"
                 android:textSize="17sp"/>
 
             <TextView
-                android:id="@+id/bottomBt_Pause"
+                android:id="@+id/tvRunningPause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -200,23 +200,19 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
-                android:text="暂停"
+                android:text="Pause"
                 android:textColor="#ffffff"
-                android:textSize="17sp"
-                />
-
+                android:textSize="17sp"/>
 
             <TextView
-                android:id="@+id/bottomBt_End"
+                android:id="@+id/tvRunningStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
-                android:text="结束"
+                android:text="Stop"
                 android:textColor="#ffffff"
-                android:textSize="17sp"
-                />
-
+                android:textSize="17sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.home_layout.*
-import kotlinx.android.synthetic.main.trace_includelayout.*
+import kotlinx.android.synthetic.main.trace_running_layout.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
@@ -36,15 +36,15 @@ import org.jetbrains.anko.support.v4.toast
  */
 class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
-    private var mRepeatCountNum = 2
-    private var mBottomStartedheight = 0
-    private var mSportTime:Long = 0
+    private var countNum = 2
+    private var runningBottomStartedheight = 0
+    private var runningTime:Long = 0
     private var isPause = false
-    private val mAniTime: Long = 300
-    private var mSportType = 1
+    private val aniTime: Long = 300
+    private var runningType = 1
 
     private lateinit var mMap: GoogleMap
-    private lateinit var bottomTvTime: Chronometer
+    private lateinit var tvChronometer: Chronometer
     private lateinit var myView: View
     private var TAG = "hero"
 
@@ -101,13 +101,13 @@ class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButton
      */
     private fun setUpViewClickListeners(){
 
-        StartSportTV.setOnClickListener {
+        this.tvStartRunning.setOnClickListener {
             CountLayout.visibility = View.VISIBLE
             val scaleAnimation = ScaleAnimation(3f, 0.5f, 3f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
             scaleAnimation.duration = 1000
             scaleAnimation.startTime = 100
             scaleAnimation.repeatCount = 2
-            CountTimer.startAnimation(scaleAnimation)
+            tvTimer.startAnimation(scaleAnimation)
 
             scaleAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation) {
@@ -115,74 +115,112 @@ class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButton
                 }
                 override fun onAnimationEnd(animation: Animation) {
                     CountLayout.visibility = View.GONE
-                    mRepeatCountNum = 2
-                    CountTimer.text = "3"
-                    startSport()
+                    countNum = 2
+                    tvTimer.text = "3"
+                    startRunning()
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {
-                    CountTimer.text = "$mRepeatCountNum"
-                    mRepeatCountNum--
+                    tvTimer.text = "$countNum"
+                    countNum--
                 }
             })
         }
 
+        llRunningBottomLayoutTopPart.setOnClickListener {
+            if (llRunningBottomLayoutBottomPart.layoutParams.height != 0) {
+                (mapView.layoutParams as RelativeLayout.LayoutParams).bottomMargin = llRunningBottomLayoutTopPart.height
+                beginAnimateInY(runningBottomStartedheight - Tools.transferDipToPx(80), 0)
+            } else {
 
-        bottomBt_End.setOnClickListener { onStopSport() }
+                mapView.postDelayed(Runnable {
+                    (mapView.layoutParams as RelativeLayout.LayoutParams).bottomMargin = runningBottomStartedheight
+                }, aniTime)
+                beginAnimateInY(0, runningBottomStartedheight - Tools.transferDipToPx(80))
+            }
+        }
 
-        bottomTvTime = this.view!!.findViewById<Chronometer>(R.id.bottomTv_Time)
 
-        bottomTvTime.onChronometerTickListener = Chronometer.OnChronometerTickListener {
-            chronometer -> mSportTime = SystemClock.elapsedRealtime() - chronometer.base
+        tvRunningStop.setOnClickListener { onStopSport() }
+
+        tvChronometer = this.view!!.findViewById<Chronometer>(R.id.tvRunningTime)
+
+        tvChronometer.onChronometerTickListener = Chronometer.OnChronometerTickListener {
+            chronometer -> runningTime = SystemClock.elapsedRealtime() - chronometer.base
         }
 
         /*
          *
          */
-        bottomBt_Pause.setOnClickListener {
-            bottomBt_End.isClickable = false
-            bottomBt_Lock.isClickable = false
-            bottomBt_Pause.isClickable = false
+        tvRunningPause.setOnClickListener {
+            tvRunningStop.isClickable = false
+            tvRunningLock.isClickable = false
+            tvRunningPause.isClickable = false
             isPause = !isPause
-            bottomBt_Pause.text = if (isPause) "Continue" else "Pause"
+            tvRunningPause.text = if (isPause) "Continue" else "Pause"
             if (isPause) {
-                bottomTvTime.stop()
-                beginAnimateInX(0, bottomBt_Pause.left - bottomBt_Lock.left)
+                tvChronometer.stop()
+                beginAnimateInX(0, tvRunningPause.left - tvRunningLock.left)
             } else {
-                bottomTvTime.base = SystemClock.elapsedRealtime() - mSportTime
-                bottomTvTime.start()
-                beginAnimateInX(bottomBt_Lock.left - bottomBt_Lock.left, 0)
+                tvChronometer.base = SystemClock.elapsedRealtime() - runningTime
+                tvChronometer.start()
+                beginAnimateInX(tvRunningLock.left - tvRunningLock.left, 0)
             }
         }
 
         /**
          *
          */
-        SportTypeRun.setOnClickListener {
-            SportTypeRun.setImageResource(R.drawable.trance_run)
-            SportTypeBike.setImageResource(R.drawable.trance_bike2)
-            mSportType = 1
-            updateTvBasedOnSportType(mSportType)
+        ivRunningType.setOnClickListener {
+            ivRunningType.setImageResource(R.drawable.trance_run)
+            ivBikeType.setImageResource(R.drawable.trance_bike2)
+            runningType = 1
+            updateTvBasedOnSportType(runningType)
         }
 
-        SportTypeBike.setOnClickListener {
-            SportTypeRun.setImageResource(R.drawable.trance_run2)
-            SportTypeBike.setImageResource(R.drawable.trance_bike)
-            mSportType = 2
-            updateTvBasedOnSportType(mSportType)
+        ivBikeType.setOnClickListener {
+            ivRunningType.setImageResource(R.drawable.trance_run2)
+            ivBikeType.setImageResource(R.drawable.trance_bike)
+            runningType = 2
+            updateTvBasedOnSportType(runningType)
         }
 
 
         /**
          * lock
          */
-        bottomBt_Lock.setOnClickListener { startActivity<LockScreenActivity>() }
+        tvRunningLock.setOnClickListener { startActivity<LockScreenActivity>() }
     }
 
     private fun updateTvBasedOnSportType(mSportType: Int) {
-        toast("mSportType: $mSportType")
+        toast("runningType: $mSportType")
     }
 
+    /**
+     * 开始运动后信息布局移动动画
+     *
+     * @param y1
+     * @param y2
+     */
+    private fun beginAnimateInY(y1: Int, y2: Int) {
+        val mAnimator = ValueAnimator.ofInt(y1, y2)
+
+        tvRunningTime.stop()
+        rlRunningBottomLayout.isClickable = false
+        mAnimator.addUpdateListener { animation ->
+            llRunningBottomLayoutBottomPart.layoutParams.height = animation.animatedValue as Int
+            llRunningBottomLayoutBottomPart.requestLayout()
+        }
+        mAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                rlRunningBottomLayout.isClickable = true
+                if (!isPause) {
+                    tvChronometer.start()
+                }
+            }
+        })
+        mAnimator.setDuration(aniTime).start()
+    }
 
     /**
      * Restore animation by pressing pause button
@@ -192,17 +230,17 @@ class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButton
     private fun beginAnimateInX(x1: Int, x2: Int) {
         val mAnimator = ValueAnimator.ofInt(x1, x2)
         mAnimator.addUpdateListener { animation ->
-            bottomBt_Lock.translationX = (animation.animatedValue as Int).toFloat()
-            bottomBt_Lock.requestLayout()
+            tvRunningLock.translationX = (animation.animatedValue as Int).toFloat()
+            tvRunningLock.requestLayout()
         }
         mAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                bottomBt_End.isClickable = true
-                bottomBt_Lock.isClickable = true
-                bottomBt_Pause.isClickable = true
+                tvRunningStop.isClickable = true
+                tvRunningLock.isClickable = true
+                tvRunningPause.isClickable = true
             }
         })
-        mAnimator.setDuration(mAniTime).start()
+        mAnimator.setDuration(aniTime).start()
     }
 
     private fun onStopSport() {
@@ -218,35 +256,35 @@ class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButton
     }
 
     
-    private fun startSport(){
-        bottomTvTime.base = SystemClock.elapsedRealtime()
-        bottomTvTime.start()
+    private fun startRunning(){
+        tvChronometer.base = SystemClock.elapsedRealtime()
+        tvChronometer.start()
 
-        bottomLayoutStarted.visibility = View.VISIBLE
-        bottomLayout.visibility = View.GONE
-        if (mBottomStartedheight == 0) {
-            mBottomStartedheight = bottomLayoutStarted.bottom - bottomLayoutStarted.top
+        rlRunningBottomLayoutStarted.visibility = View.VISIBLE
+        rlRunningBottomLayout.visibility = View.GONE
+        if (runningBottomStartedheight == 0) {
+            runningBottomStartedheight = rlRunningBottomLayoutStarted.bottom - rlRunningBottomLayoutStarted.top
         }
-        (mapView.layoutParams as RelativeLayout.LayoutParams).bottomMargin = mBottomStartedheight
+        (mapView.layoutParams as RelativeLayout.LayoutParams).bottomMargin = runningBottomStartedheight
     }
 
     /**
      * Reset textviews to default value
      */
     private fun resetTvInfo() {
-        bottomTv_Peisu.text = getString(R.string.peisu)
-        bottomTv_Altitude.text = getString(R.string.altitude)
-        bottomTv_Speed.text = getString(R.string.speed)
-        bottomTV_Distance.text = getString(R.string.distance)
-        bottomTv_AverageSpeed.text = getString(R.string.avgSpeed)
-        bottomTvTime.stop()
+        tvRunningPeisu.text = getString(R.string.peisu)
+        tvRunningAltitude.text = getString(R.string.altitude)
+        tvRunningSpeed.text = getString(R.string.speed)
+        tvRunningDistance.text = getString(R.string.distance)
+        tvRunningAverageSpeed.text = getString(R.string.avgSpeed)
+        tvChronometer.stop()
 
-        bottomLayout.visibility = View.VISIBLE
-        bottomLayoutStarted.visibility = View.GONE
+        rlRunningBottomLayout.visibility = View.VISIBLE
+        rlRunningBottomLayoutStarted.visibility = View.GONE
 
-        bottomBt_Pause.text = getString(R.string.pause)
-        bottomBt_Lock.translationX = 0f
-        bottomBt_Lock.requestLayout()
+        tvRunningPause.text = getString(R.string.pause)
+        tvRunningLock.translationX = 0f
+        tvRunningLock.requestLayout()
 
         val mLayoutParams = mapView.layoutParams as RelativeLayout.LayoutParams
         mLayoutParams.bottomMargin = Tools.transferDipToPx(200)

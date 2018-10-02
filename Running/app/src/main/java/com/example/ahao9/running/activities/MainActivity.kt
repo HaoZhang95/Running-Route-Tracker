@@ -3,7 +3,6 @@ package com.example.ahao9.running.activities
 
 import android.Manifest
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.design.widget.NavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -11,18 +10,15 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.dongdongwu.mypermission.MyPermission
 import com.dongdongwu.mypermission.PermissionFailure
-import com.dongdongwu.mypermission.PermissionNotAskAgain
 import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
-import com.example.ahao9.running.R.id.*
 import com.example.ahao9.running.fragments.BMIFragment
-import com.example.ahao9.running.fragments.HomeFragment
 import com.example.ahao9.running.fragments.HistoryFragment
+import com.example.ahao9.running.fragments.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
@@ -34,7 +30,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         const val REQUEST_PERMISSION_CODE = 1
     }
     private var selectedPosition = 0
-    private val TAG = "hero"
     private lateinit var homeFragment: HomeFragment
     private lateinit var bmiFragment: BMIFragment
     private lateinit var historyFragment: HistoryFragment

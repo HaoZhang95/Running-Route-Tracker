@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
@@ -15,7 +14,7 @@
     </com.google.android.gms.maps.MapView>
 
     <LinearLayout
-        android:id="@+id/statusview"
+        android:id="@+id/llStatusView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -25,7 +24,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/gpsImg"
+            android:id="@+id/tvGpsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/backgrounp_orange"
@@ -40,12 +39,12 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/bottomLayout"
+        android:id="@+id/rlRunningBottomLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_above="@+id/bottomLayoutStarted"
+        android:layout_above="@+id/rlRunningBottomLayoutStarted"
         android:layout_alignParentBottom="true"
-        android:background="#36353a"
+        android:background="@color/colorPrimary"
         android:visibility="visible">
 
         <LinearLayout
@@ -58,13 +57,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/SportTypeRun"
+                android:id="@+id/ivRunningType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/trance_run" />
 
             <ImageView
-                android:id="@+id/SportTypeBike"
+                android:id="@+id/ivBikeType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -82,52 +81,32 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/TotalMileageTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circle_gray"
-                android:gravity="center"
-                android:text="0.00km\n总里程"
-                android:textColor="#ffffff"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/StartSportTV"
+                android:id="@+id/tvStartRunning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
-                android:text="开始"
+                android:text="Start"
                 android:textColor="#ffffff"
                 android:textSize="17sp"/>
 
-            <TextView
-                android:id="@+id/AllTimeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circle_deepblue"
-                android:gravity="center"
-                android:text="00:00:00\n总时间"
-                android:textColor="#ffffff"
-                android:textSize="12sp"/>
         </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/bottomLayoutStarted"
+        android:id="@+id/rlRunningBottomLayoutStarted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="invisible"
-        >
+        android:visibility="invisible">
 
-        <include layout="@layout/trace_includelayout"></include>
+        <include layout="@layout/trace_running_layout"></include>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/locklayout"
+        android:id="@+id/rlLockLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#40000000"
@@ -144,7 +123,7 @@
         android:clickable="true">
 
         <TextView
-            android:id="@+id/CountTimer"
+            android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

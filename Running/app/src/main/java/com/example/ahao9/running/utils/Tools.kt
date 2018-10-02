@@ -23,7 +23,7 @@ class Tools {
         }
 
         fun getSimpleDate(time: Long): String {
-            val format = SimpleDateFormat("yy-MM-dd HH:mm:ss")
+            val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             return format.format(Date(time))
         }
 
