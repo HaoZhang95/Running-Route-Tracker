@@ -19,8 +19,8 @@ import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 import android.arch.lifecycle.Observer
 import android.graphics.Color
+import android.widget.EditText
 import com.example.ahao9.running.database.entity.BMIEntity
-import kotlinx.android.synthetic.main.dialog_resetdata.*
 
 
 /**
@@ -72,8 +72,7 @@ class BMIFragment: Fragment() {
     }
 
     private fun setUpBMI(height: Double, weight: Double) {
-        val heightInput = height / 100.0
-        val bmiValue = weight / (heightInput * heightInput)
+        val bmiValue = weight / (height * height)
         val decimalFormat = DecimalFormat("0.00")
         val bmiStr = decimalFormat.format(bmiValue)
         tv_bmi_value.text = bmiStr
@@ -148,7 +147,7 @@ class BMIFragment: Fragment() {
                     val deltWeight = currentWeight - lastWeight
                     this.setUpParameters(deltWeight, bmi.weight.toDouble(),
                             bmi.height.toDouble(), bmi.time.toLong())
-                    setUpBMI(bmi.height.toDouble(), bmi.weight.toDouble() / 2)
+                    setUpBMI(bmi.height.toDouble(), bmi.weight.toDouble())
                 }
             }
             drawDotOnChart(dotValueArr)
@@ -208,10 +207,13 @@ class BMIFragment: Fragment() {
         myDiglogBuilder.setView(dialogView)
         myDiglogBuilder.setPositiveButton("Confirm") { _, _ ->
 
-            if ( et_height.text.trim().isNotEmpty() && et_weight.text.trim().isNotEmpty()) {
+            val heightEt = dialogView.findViewById(R.id.et_height) as EditText
+            val weightEt = dialogView.findViewById(R.id.et_weight) as EditText
 
-                var heightInput = et_height.text.trim().toString().toDouble()
-                val weightInput = et_weight.text.trim().toString().toDouble()
+            if ( heightEt.text.trim().isNotEmpty() && weightEt.text.trim().isNotEmpty()) {
+
+                var heightInput = heightEt.text.trim().toString().toDouble()
+                val weightInput = weightEt.text.trim().toString().toDouble()
 
                 heightInput /= 100.0
                 val bmi = weightInput / (heightInput * heightInput)
