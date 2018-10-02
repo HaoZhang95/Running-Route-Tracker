@@ -12,17 +12,18 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import com.example.ahao9.running.R
 import com.example.ahao9.running.model.AccDataResponse
 import com.example.ahao9.running.model.MyScanResult
 import com.google.gson.Gson
 import com.movesense.mds.*
 import com.polidea.rxandroidble.RxBleClient
 import com.polidea.rxandroidble.scan.ScanSettings
-import kotlinx.android.synthetic.main.activity_connect_ble.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import rx.Subscription
 import java.util.ArrayList
+import kotlinx.android.synthetic.main.activity_connect_ble.*
+import com.example.ahao9.running.R
 
 class ConnectBLEActivity : AppCompatActivity(),
         AdapterView.OnItemLongClickListener,AdapterView.OnItemClickListener {
@@ -238,6 +239,9 @@ class ConnectBLEActivity : AppCompatActivity(),
 
                         // start subscribing
                         subscribeToSensor(device.connectedSerial)
+
+                        // Jump to main page
+                        startActivity<MainActivity>()
                         break
                     }
                 }
