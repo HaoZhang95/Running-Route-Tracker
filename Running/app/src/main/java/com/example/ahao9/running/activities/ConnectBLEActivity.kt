@@ -153,11 +153,6 @@ class ConnectBLEActivity : AppCompatActivity(),
             // And connect to the device
             connectBLEDevice(device)
         }
-        // 如果已经连接,再次点击啥也不做
-        /* else {
-            // Device is connected, trigger showing /Info
-            subscribeToSensor(device.connectedSerial)
-        }*/
     }
 
     /**

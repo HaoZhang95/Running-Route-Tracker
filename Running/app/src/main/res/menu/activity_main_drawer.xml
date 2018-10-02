@@ -10,11 +10,11 @@
             android:title="Running" />
         <item
             android:id="@+id/nav_bmi"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/op_weight_height"
             android:title="BMI" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/op_got"
             android:title="History" />
         <item
             android:id="@+id/nav_manage"

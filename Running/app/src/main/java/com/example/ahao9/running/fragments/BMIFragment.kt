@@ -1,15 +1,14 @@
 package com.example.ahao9.running.fragments
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import com.example.ahao9.running.R
 import com.example.ahao9.running.database.entity.BMIViewModel
 import com.example.ahao9.running.utils.Tools
@@ -19,7 +18,9 @@ import lecho.lib.hellocharts.util.ChartUtils
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 import android.arch.lifecycle.Observer
+import android.graphics.Color
 import com.example.ahao9.running.database.entity.BMIEntity
+import kotlinx.android.synthetic.main.dialog_resetdata.*
 
 
 /**
@@ -29,129 +30,111 @@ import com.example.ahao9.running.database.entity.BMIEntity
  */
 class BMIFragment: Fragment() {
 
-    private val bmi_level_color = intArrayOf(-0xae561f, -0x7738fd, -0x4bfe, -0x2be1fe)
-
-    private lateinit var data: LineChartData
     private val numberOfLines = 1
     private val maxNumberOfLines = 4
     private val numberOfPoints = 10
-    internal var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
-    private val hasAxes = true
-    private val hasAxesNames = true
     private val hasLines = true
     private val hasPoints = true
-    private val shape = ValueShape.CIRCLE
     private val isFilled = false
     private val hasLabels = false
     private val isCubic = false
     private val hasLabelForSelected = false
-    private val pointsHaveDifferentColor: Boolean = false
     private lateinit var lastWeight: String
     private lateinit var bmiViewModel:BMIViewModel
+    private lateinit var data: LineChartData
+    private val shape = ValueShape.CIRCLE
     private var size0fDotValueArr:Int = 0
-    private var TAG = "hero"
+    private var randomNumbersTab = Array(maxNumberOfLines) { FloatArray(numberOfPoints) }
+    private val bmiLevelColor = arrayOf("#7CBEE7", "#89C600", "#FFB500", "#DE482F")
 
+    private val TAG = "hero"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-
-
         return inflater.inflate(R.layout.bmi_layout,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        bmiViewModel = ViewModelProviders.of(this).get(BMIViewModel::class.java)
-        bmiViewModel.findAll().observe(this, Observer {
-            Log.d(TAG,"BMI size: ${it!!.size}")
-            // userAdapter!!.setData((it as MutableList<User>))
-        })
-
         initViews()
-
-        iv_bmi_level.setOnClickListener {
-            resetData()
-        }
     }
 
     private fun initViews() {
-        iv_editBMI.setOnClickListener {
-            resetData();
-        }
-        generateValues()
+        iv_editBMI.setOnClickListener { refreshData() }
+        iv_bmi_level.setOnClickListener { refreshData() }
 
-        linechart_weight.isViewportCalculationEnabled = false
-        resetViewport()
+        bmiViewModel = ViewModelProviders.of(this).get(BMIViewModel::class.java)
         lastWeight = tv_weight.text.toString()
 
-        resetUI()
+        fulfillValues()
+        linechart_weight.isViewportCalculationEnabled = false
+        refreshViewport()
+        refreshUI()
     }
 
-    private fun setBMI(sex: String, height: Double, weight: Double) {
-        val sg = height / 100.0
-        val bmi = weight / (sg * sg)
-        val df = DecimalFormat("0.00")
-        val str_bmi = df.format(bmi)
-        tv_bmi_value.text = str_bmi
+    private fun setUpBMI(height: Double, weight: Double) {
+        val heightInput = height / 100.0
+        val bmiValue = weight / (heightInput * heightInput)
+        val decimalFormat = DecimalFormat("0.00")
+        val bmiStr = decimalFormat.format(bmiValue)
+        tv_bmi_value.text = bmiStr
 
-        if (bmi < 18.5) {
+        if (bmiValue < 18.5) {
             iv_bmi_level.setImageResource(R.drawable.bmi_1)
-            tv_bmi_level.text = "偏瘦"
-            setTextColor(bmi_level_color[0])
-        } else if ((bmi >= 18.5) and (bmi < 24)) {
+            tv_bmi_level.text = getString(R.string.bmiSlim)
+            setTextColor(bmiLevelColor[0])
+        } else if ((bmiValue >= 18.5) and (bmiValue < 24)) {
             iv_bmi_level.setImageResource(R.drawable.bmi_2)
-            tv_bmi_level.text = "正常"
-            setTextColor(bmi_level_color[1])
-        } else if (bmi >= 24 && bmi < 30) {
+            tv_bmi_level.text = getString(R.string.bmiHealthy)
+            setTextColor(bmiLevelColor[1])
+        } else if (bmiValue >= 24 && bmiValue < 30) {
             iv_bmi_level.setImageResource(R.drawable.bmi_3)
-            tv_bmi_level.text = "偏胖"
-            setTextColor(bmi_level_color[2])
+            tv_bmi_level.text = getString(R.string.bmiOverweight)
+            setTextColor(bmiLevelColor[2])
         } else {
             iv_bmi_level.setImageResource(R.drawable.bmi_4)
-            tv_bmi_level.text = "重度偏胖"
-            setTextColor(bmi_level_color[3])
+            tv_bmi_level.text = getString(R.string.bmiObses)
+            setTextColor(bmiLevelColor[3])
         }
     }
 
-    private fun setTextColor(color: Int) {
-        tv_bmi_value.setTextColor(color)
-        tv_bmi_level.setTextColor(color)
+    private fun setTextColor(colorStr: String) {
+        tv_bmi_value.setTextColor(Color.parseColor(colorStr))
+        tv_bmi_level.setTextColor(Color.parseColor(colorStr))
     }
 
-    private fun setParameters(delt_weight: Double, myWeight: Double, myHeight: Double, time: Long) {
-        iv_weight_how_change.setImageResource(if (delt_weight > 0) R.drawable.icon_arrow_up else R.drawable.icon_arrow_down)
+    private fun setUpParameters(deltWeight: Double, myWeight: Double, myHeight: Double, time: Long) {
+        iv_weight_how_change.setImageResource(if (deltWeight > 0) R.drawable.icon_arrow_up else R.drawable.icon_arrow_down)
         tv_height.text = myHeight.toString()
         tv_weight.text = myWeight.toString()
-        tv_update_time.setText(Tools.getSimpleDate(time))
-        tv_delt_weight.text = Math.abs(delt_weight).toString()
+        tv_update_time.text = Tools.getSimpleDate(time)
+        tv_delt_weight.text = Math.abs(deltWeight).toString()
     }
 
-    private fun resetViewport() {
+    private fun refreshViewport() {
         // Reset viewport height range to (0,100)
-        val v = Viewport(linechart_weight.getMaximumViewport())
+        val v = Viewport(linechart_weight.maximumViewport)
         v.bottom = 0f
         v.top = 200f
         v.left = 0f
         v.right = (numberOfPoints - 1).toFloat()
-        linechart_weight.setMaximumViewport(v)
-        linechart_weight.setCurrentViewport(v)
+        linechart_weight.maximumViewport = v
+        linechart_weight.currentViewport = v
     }
 
-    private fun resetUI() {
+    private fun refreshUI() {
         val dotValueArr = arrayOfNulls<Int>(10)
         bmiViewModel.findLatest10().observe(this, Observer {
-            Log.d(TAG,"BMI findLatest10 size: ${it!!.size}")
-            if (it.isNotEmpty()) {
 
+            Log.d(TAG,"BMI findLatest10 size: ${it!!.size}")
+
+            if (it.isNotEmpty()) {
                 size0fDotValueArr = it.size
-                for (i in it.indices) {
+                for (i in (it.size - 1) downTo 0) {
                     val str = it[i].weight
-                    dotValueArr[i] = str.toDouble().toInt()
-                    //str.toInt()
+                    dotValueArr[(it.size - 1) - i] = str.toDouble().toInt()
                 }
 
-                var lastWeight: Double = 0.0
+                var lastWeight = 0.0
                 val iterator = it.iterator()
 
                 if (iterator.hasNext()) {
@@ -162,19 +145,17 @@ class BMIFragment: Fragment() {
                         lastWeight = iterator.next().weight.toDouble()
                     }
 
-                    var delt_weight = currentWeight - lastWeight
-                    setParameters(delt_weight, bmi.weight.toDouble(),
+                    val deltWeight = currentWeight - lastWeight
+                    this.setUpParameters(deltWeight, bmi.weight.toDouble(),
                             bmi.height.toDouble(), bmi.time.toLong())
-                    setBMI("男", bmi.height.toDouble(), bmi.weight.toDouble() / 2)
+                    setUpBMI(bmi.height.toDouble(), bmi.weight.toDouble() / 2)
                 }
-                // dataList.reverse()
-                dotValueArr.reverse()
-                drawDotOnChart(dotValueArr)
             }
+            drawDotOnChart(dotValueArr)
         })
     }
 
-    private fun generateValues() {
+    private fun fulfillValues() {
         for (i in 0 until maxNumberOfLines) {
             for (j in 0 until numberOfPoints) {
                 randomNumbersTab[i][j] = Math.random().toFloat() * 100f
@@ -190,7 +171,6 @@ class BMIFragment: Fragment() {
             for (j in dataList.indices) {
                 if (dataList[j] != null) {
                     values.add(PointValue(j.toFloat(), dataList[j]!!.toFloat()))
-                    Log.e(TAG, dataList[j].toString() + "dataList  ---")
                 }
             }
 
@@ -203,68 +183,52 @@ class BMIFragment: Fragment() {
             line.setHasLabelsOnlyForSelected(hasLabelForSelected)
             line.setHasLines(hasLines)
             line.setHasPoints(hasPoints)
-            if (pointsHaveDifferentColor) {
-                line.pointColor = ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.size]
-            }
+
             lines.add(line)
         }
 
         data = LineChartData(lines)
 
-        if (hasAxes) {
-            val axisX = Axis()
-            val axisY = Axis().setHasLines(true)
-            //            axisY.setMaxLabelChars(200);
-            if (hasAxesNames) {
-                axisX.name = "最近" + (size0fDotValueArr) + "天"
-                axisY.name = "体重(单位：斤)"
-            }
-            data.setAxisXBottom(axisX)
-            data.setAxisYLeft(axisY)
-        } else {
-            data.setAxisXBottom(null)
-            data.setAxisYLeft(null)
-        }
+        val axisX = Axis()
+        val axisY = Axis().setHasLines(true)
+        axisX.name = "$size0fDotValueArr times recently"
+        axisY.name = "Weight (kg)"
+
+        data.axisXBottom = axisX
+        data.axisYLeft = axisY
 
         data.baseValue = java.lang.Float.NEGATIVE_INFINITY
         linechart_weight.lineChartData = data
-
     }
 
-    private fun resetData() {
-        val buider = AlertDialog.Builder(context!!)
-        val dialog_view = LayoutInflater.from(context).inflate(R.layout.dialog_resetdata, null)
-        buider.setView(dialog_view)
-        buider.setPositiveButton("确认") { dialog, which ->
-            val et_height = dialog_view.findViewById(R.id.et_height) as EditText
-            val et_weight = dialog_view.findViewById(R.id.et_weight) as EditText
-            if (!TextUtils.isEmpty(et_height.text.toString()) && !TextUtils.isEmpty(et_weight.text.toString())) {
-                val myHeight = Integer.parseInt(et_height.text.toString()).toDouble()
-                val myWeight = Integer.parseInt(et_weight.text.toString()).toDouble()
-                val delt_weight = myWeight - java.lang.Double.parseDouble(lastWeight)
-                // 先存后取
+    @SuppressLint("InflateParams")
+    private fun refreshData() {
+        val myDiglogBuilder = AlertDialog.Builder(context!!)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_resetdata, null)
+        myDiglogBuilder.setView(dialogView)
+        myDiglogBuilder.setPositiveButton("Confirm") { _, _ ->
 
-                val sg = myHeight / 100.0
-                val bmi = myWeight / (sg * sg)
-                val df = DecimalFormat("0.00")
-                val str_bmi = df.format(bmi)
+            if ( et_height.text.trim().isNotEmpty() && et_weight.text.trim().isNotEmpty()) {
+
+                var heightInput = et_height.text.trim().toString().toDouble()
+                val weightInput = et_weight.text.trim().toString().toDouble()
+
+                heightInput /= 100.0
+                val bmi = weightInput / (heightInput * heightInput)
+                val decimalFormat = DecimalFormat("0.00")
+                val bmiStr = decimalFormat.format(bmi)
 
                 val bmiEntity = BMIEntity(
                         id = 0,
-                        weight = myWeight.toString(),
-                        height = myHeight.toString(),
-                        bmi = str_bmi,
+                        weight = weightInput.toString(),
+                        height = heightInput.toString(),
+                        bmi = bmiStr,
                         time = System.currentTimeMillis().toString()
                 )
                 bmiViewModel.insert(bmiEntity)
-
-                // resetUI()
             }
         }
-        buider.setNegativeButton("取消") { dialog, which -> }
-        buider.show()
-
+        myDiglogBuilder.setNegativeButton("Cancel") { _, _ -> }
+        myDiglogBuilder.show()
     }
-
-
 }

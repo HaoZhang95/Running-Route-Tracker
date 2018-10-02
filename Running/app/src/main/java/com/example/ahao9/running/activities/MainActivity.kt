@@ -24,6 +24,7 @@ import com.example.ahao9.running.fragments.HomeFragment
 import com.example.ahao9.running.fragments.HistoryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,36 +59,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         MyPermission.with(this)
                 .setRequestCode(REQUEST_PERMISSION_CODE)
                 .setRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET)
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
                 .requestPermission();
     }
 
 
     @PermissionSuccess(requestCode = REQUEST_PERMISSION_CODE)
-    private fun callPhoneSuccess() {
-        //打电话方法
-        Log.d(TAG, "callPhone: 打电话1PermissionSuccess");
-    }
+    private fun callPermissionSuccess() { }
 
     @PermissionFailure(requestCode = REQUEST_PERMISSION_CODE)
-    private fun callPhoneFailure() {
-        //打电话方法
-        Log.d(TAG, "callPhone: 打电话2PermissionFailure");
-    }
-
-    //反射会返回don't ask Again 的权限
-    @PermissionNotAskAgain(requestCode = REQUEST_PERMISSION_CODE)
-    private fun callPhoneNotAskAgin( notAskAgainList: List<String>) {
-        //打电话方法
-        Log.d(TAG, "callPhone: 打电话3PermissionNotAskAgain");
-        if (notAskAgainList != null) {
-            for (s in notAskAgainList) {
-                Log.d(TAG, "callPhoneNotAskAgin: "+ s);
-            }
-            //调用写好的don't ask Again权限的弹窗，如果同意则跳转到权限界面，不同意则调用 失败方法。
-            MyPermission.showDialogTipUserGoToAppSettting(this, REQUEST_PERMISSION_CODE, notAskAgainList);
-        }
+    private fun callPermissionFailure() {
+        toast("Permissions are Missing")
+        finish()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

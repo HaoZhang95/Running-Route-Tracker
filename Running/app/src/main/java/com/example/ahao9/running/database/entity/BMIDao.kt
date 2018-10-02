@@ -26,6 +26,4 @@ interface BMIDao {
 
     @Query("select * from BMI order by time desc limit 10")
     fun findLatest10(): LiveData<List<BMIEntity>>
-
-
 }
