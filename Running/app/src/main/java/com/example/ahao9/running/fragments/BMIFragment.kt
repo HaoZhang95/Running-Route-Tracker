@@ -66,7 +66,7 @@ class BMIFragment: Fragment() {
         lastWeight = tv_weight.text.toString()
 
         fulfillValues()
-        linechart_weight.isViewportCalculationEnabled = false
+        bmiLineChart.isViewportCalculationEnabled = false
         refreshViewport()
         refreshUI()
     }
@@ -111,13 +111,13 @@ class BMIFragment: Fragment() {
 
     private fun refreshViewport() {
         // Reset viewport height range to (0,100)
-        val v = Viewport(linechart_weight.maximumViewport)
+        val v = Viewport(bmiLineChart.maximumViewport)
         v.bottom = 0f
         v.top = 200f
         v.left = 0f
         v.right = (numberOfPoints - 1).toFloat()
-        linechart_weight.maximumViewport = v
-        linechart_weight.currentViewport = v
+        bmiLineChart.maximumViewport = v
+        bmiLineChart.currentViewport = v
     }
 
     private fun refreshUI() {
@@ -197,7 +197,7 @@ class BMIFragment: Fragment() {
         data.axisYLeft = axisY
 
         data.baseValue = java.lang.Float.NEGATIVE_INFINITY
-        linechart_weight.lineChartData = data
+        bmiLineChart.lineChartData = data
     }
 
     @SuppressLint("InflateParams")

@@ -6,13 +6,10 @@
     android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical">
 
-
-    <!--<include layout="@layout/include_titlebar" />-->
-
     <lecho.lib.hellocharts.view.LineChartView
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:id="@+id/linechart_weight"
+        android:id="@+id/bmiLineChart"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         />

@@ -5,6 +5,7 @@ import android.Manifest
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -63,13 +64,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .requestPermission();
     }
 
-
+    /**
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     @PermissionSuccess(requestCode = REQUEST_PERMISSION_CODE)
     private fun callPermissionSuccess() { }
 
     @PermissionFailure(requestCode = REQUEST_PERMISSION_CODE)
     private fun callPermissionFailure() {
         toast("Permissions are Missing")
+        ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_PERMISSION_CODE)
         finish()
     }
 
