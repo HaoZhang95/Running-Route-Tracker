@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng
  * @ Date       ：Created in 10:05 2018/10/2
  * @ Description：Build for Metropolia project
  */
-data class RouteRecord (
+data class RouteRecordBean (
         var startPoint: LatLng,
         var endPoint: LatLng,
         var pathLine: MutableList<LatLng>,

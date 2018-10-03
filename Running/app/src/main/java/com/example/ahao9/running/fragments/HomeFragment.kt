@@ -34,7 +34,8 @@ import org.jetbrains.anko.support.v4.toast
  * @ Date       ：Created in 16:42 2018/9/30
  * @ Description：Build for Metropolia project
  */
-class HomeFragment: Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
+class HomeFragment: Fragment(), OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
     private var countNum = 2
     private var runningBottomStartedheight = 0
