@@ -1,13 +1,21 @@
 package com.example.ahao9.running.fragments
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +26,9 @@ import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.*
 import com.example.ahao9.running.activities.LockScreenActivity
+import com.example.ahao9.running.services.GPSService
 import com.example.ahao9.running.utils.Tools
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -47,6 +57,9 @@ class HomeFragment: Fragment(), OnMapReadyCallback,
     private lateinit var mMap: GoogleMap
     private lateinit var tvChronometer: Chronometer
     private lateinit var myView: View
+
+    private var broadcastReceiver: BroadcastReceiver? = null
+
     private var TAG = "hero"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,7 +69,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         setUpViewClickListeners()
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -64,7 +77,40 @@ class HomeFragment: Fragment(), OnMapReadyCallback,
         val mLayoutParams = mapView.layoutParams as RelativeLayout.LayoutParams
         mLayoutParams.bottomMargin = Tools.transferDipToPx(200)
         mapView.layoutParams = mLayoutParams
+
+        // setUp gps
+        if(!runtimePermissions()) {
+            val i = Intent(context!!.applicationContext, GPSService::class.java)
+            context!!.startService(i)
+        } else {
+            toast("Please enable GPS")
+        }
     }
+
+    private fun runtimePermissions(): Boolean {
+        if (Build.VERSION.SDK_INT >= 23
+                && ContextCompat.checkSelfPermission(
+                        context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
+
+            return true
+        }
+        return false
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                val i = Intent(context!!.applicationContext, GPSService::class.java)
+                context!!.startService(i)
+            }else {
+                runtimePermissions();
+            }
+        }
+    }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
 
@@ -359,10 +405,35 @@ class HomeFragment: Fragment(), OnMapReadyCallback,
     override fun onResume() {
         mapView.onResume()
         super.onResume()
+
+        if (broadcastReceiver == null) {
+            broadcastReceiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    Log.d("hero1", intent.extras!!.get("coordinates")!!.toString())
+                    Log.d("hero1", intent.extras!!.get("gps")!!.toString())
+
+                    val gpsIntensity = intent.extras!!.get("gps")!! as Int
+                    when(gpsIntensity){
+                        3 -> { tvGpsView.text = "GPS ★★★" }
+                        2 -> { tvGpsView.text = "GPS ★★☆" }
+                        1 -> { tvGpsView.text = "GPS ★☆☆" }
+                        0 -> { tvGpsView.text = "GPS ☆☆☆" }
+                    }
+                }
+            }
+        }
+        context!!.registerReceiver(broadcastReceiver, IntentFilter("location_update"))
     }
 
     override fun onPause() {
         super.onPause()
         mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(broadcastReceiver != null){
+            context!!.unregisterReceiver(broadcastReceiver);
+        }
     }
 }
