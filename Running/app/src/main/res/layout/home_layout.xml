@@ -23,17 +23,18 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <!--            android:drawableRight="@drawable/gps_signal_0"
+-->
         <TextView
             android:id="@+id/tvGpsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/backgrounp_orange"
             android:drawablePadding="5dp"
-            android:drawableRight="@drawable/gps_signal_0"
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="GPS"
+            android:text="GPS ★★☆"
             android:textColor="#ffffff"
             android:textSize="12sp"/>
     </LinearLayout>
