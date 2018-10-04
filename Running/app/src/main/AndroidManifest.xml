@@ -3,7 +3,7 @@
     package="com.example.ahao9.running">
 
     <!-- For Location Service -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- For Room Database -->
@@ -33,10 +33,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".activities.WeeklyRunningActivity"
-            android:label="@string/title_activity_weekly_running" />
+        
+        <!-- gps service -->
+        <service android:name=".services.GPSService"></service>
+        
         <activity
             android:name=".activities.LockScreenActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

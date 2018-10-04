@@ -16,9 +16,7 @@ import com.dongdongwu.mypermission.MyPermission
 import com.dongdongwu.mypermission.PermissionFailure
 import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
-import com.example.ahao9.running.fragments.BMIFragment
-import com.example.ahao9.running.fragments.HistoryFragment
-import com.example.ahao9.running.fragments.HomeFragment
+import com.example.ahao9.running.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
@@ -33,6 +31,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var homeFragment: HomeFragment
     private lateinit var bmiFragment: BMIFragment
     private lateinit var historyFragment: HistoryFragment
+    private lateinit var bleFragment: BLEFragment
+    private lateinit var testFragment: TestFragment
+
     private lateinit var fragmentArray:Array<Fragment>
     private lateinit var fragmentTagsArray:Array<String>
     private lateinit var fragmentTransaction: FragmentTransaction
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         MyPermission.with(this)
                 .setRequestCode(REQUEST_PERMISSION_CODE)
                 .setRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                 .requestPermission();
     }
 
@@ -89,8 +90,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         homeFragment = HomeFragment()
         bmiFragment = BMIFragment()
         historyFragment = HistoryFragment()
-        fragmentArray = arrayOf(homeFragment, bmiFragment, historyFragment)
-        fragmentTagsArray = arrayOf("Running", "BMI","History")
+        bleFragment = BLEFragment()
+        testFragment = TestFragment()
+
+        fragmentArray = arrayOf(homeFragment, bmiFragment, historyFragment, bleFragment, testFragment)
+        fragmentTagsArray = arrayOf("Running", "BMI","History", "BLE", "Test")
 
         fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -135,6 +139,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_history -> {
                 selectedPosition = 2
+            }
+            R.id.nav_manage -> {
+                selectedPosition = 3
+            }
+            R.id.nav_share -> {
+                selectedPosition = 4
             }
         }
 
