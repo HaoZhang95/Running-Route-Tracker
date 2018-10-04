@@ -82,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time"
+                    android:text="Time Last"
                     android:textColor="@color/colorMainViewBackground"
                     android:textSize="13sp"/>
             </LinearLayout>
@@ -110,7 +110,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvRecordPeisu"
+                    android:id="@+id/tvRecordDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -120,7 +120,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Peisu"
+                    android:text="Date"
                     android:textColor="@color/colorMainViewBackground"
                     android:textSize="12sp"/>
 

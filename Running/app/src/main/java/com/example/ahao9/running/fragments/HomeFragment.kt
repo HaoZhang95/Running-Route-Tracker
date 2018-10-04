@@ -273,9 +273,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback,
      * Reset textviews to default value
      */
     private fun resetTvInfo() {
-        tvRunningPeisu.text = getString(R.string.peisu)
         tvRunningAltitude.text = getString(R.string.altitude)
-        tvRunningSpeed.text = getString(R.string.speed)
         tvRunningDistance.text = getString(R.string.distance)
         tvRunningAverageSpeed.text = getString(R.string.avgSpeed)
         tvChronometer.stop()

@@ -63,7 +63,7 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
         // real data shuold come with Intent obj, for now using fake data
         tvRecordLength.text = "2.4 KM"
         tvRecordTime.text = "0:24:59"
-        tvRecordPeisu.text = "12:56"
+        tvRecordDate.text = "04/10/2018"
         tvRecordSpeed.text = "3.07"
         tvRecordAltitude.text = "123"
     }
