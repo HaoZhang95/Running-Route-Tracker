@@ -4,13 +4,11 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +25,7 @@ import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.*
 import com.example.ahao9.running.activities.LockScreenActivity
 import com.example.ahao9.running.services.GPSService
 import com.example.ahao9.running.utils.Tools
@@ -68,32 +67,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
     }
     private var points = ArrayList<LatLng>()
     private var lineOptions = PolylineOptions()
-
-    private fun setUpFakeRoute() {
-        points.add(LatLng(60.226208, 24.771758))
-        points.add(LatLng(60.226209, 24.771588))
-        points.add(LatLng(60.226207, 24.771218))
-        points.add(LatLng(60.226212, 24.770845))
-        points.add(LatLng(60.226233, 24.770802))
-
-
-        points.add(LatLng(60.226331, 24.770987))
-        points.add(LatLng(60.226433, 24.771187))
-        points.add(LatLng(60.226556, 24.771387))
-        points.add(LatLng(60.226688, 24.771591))
-        points.add(LatLng(60.226842, 24.771773))
-
-        points.add(LatLng(60.226965, 24.771784))
-        points.add(LatLng(60.227085, 24.771666))
-        points.add(LatLng(60.227106, 24.771537))
-        points.add(LatLng(60.227029, 24.771177))
-        points.add(LatLng(60.226842, 24.770534))
-
-        // Adding all the points in the route to LineOptions
-        lineOptions.addAll(points);
-        lineOptions.width(10f);
-        lineOptions.color(Color.RED);
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myView = inflater.inflate(R.layout.home_layout, container, false)
@@ -231,6 +204,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
                 tvChronometer.base = SystemClock.elapsedRealtime() - runningTime
                 tvChronometer.start()
                 beginAnimateInX(tvRunningLock.left - tvRunningLock.left, 0)
+
+                isRunning = true
             }
         }
 
@@ -446,6 +421,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
                     if (isRunning) {
                         lineOptions.add(latLng)
                         mMap.addPolyline(lineOptions)
+
+
+                        tvRunningAltitude.text = Tools.getSimpleDecimal(location.altitude)
+                        tvRunningDistance.text = getString(R.string.distance)
+                        tvRunningAverageSpeed.text =Tools.getSimpleDecimal(location.speed.toDouble())
+
                     }
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
                     Log.d(TAG, "lat: ${location.latitude} --- lng: ${location.longitude} --- gpsIntensity: $gpsIntensity")

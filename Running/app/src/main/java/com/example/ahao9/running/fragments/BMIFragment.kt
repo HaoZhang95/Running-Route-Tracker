@@ -218,8 +218,7 @@ class BMIFragment: Fragment() {
 
                 heightInput /= 100.0
                 val bmi = weightInput / (heightInput * heightInput)
-                val decimalFormat = DecimalFormat("0.00")
-                val bmiStr = decimalFormat.format(bmi)
+                val bmiStr = Tools.getSimpleDecimal(bmi)
 
                 val bmiEntity = BMIEntity(
                         id = 0,

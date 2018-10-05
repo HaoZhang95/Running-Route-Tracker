@@ -1,6 +1,7 @@
 package com.example.ahao9.running.utils
 
 import android.app.Application
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +26,11 @@ class Tools {
         fun getSimpleDate(time: Long): String {
             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             return format.format(Date(time))
+        }
+
+        fun getSimpleDecimal(num: Double): String {
+            val decimalFormat = DecimalFormat("0.00")
+            return decimalFormat.format(num)
         }
 
     }
