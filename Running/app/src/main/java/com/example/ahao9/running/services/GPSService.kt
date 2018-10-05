@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.location.GpsStatus
 import android.location.GpsStatus.*
 import android.util.Log
+import com.example.ahao9.running.activities.MainActivity
 
 
 /**
@@ -55,9 +56,6 @@ class GPSService: Service() {
                     var count = 0
                     while (iters.hasNext() && count <= maxSatellites) {
                         val temp =  iters.next();
-                        val snr = temp.snr
-                        Log.d(TAG,"Snr: ${snr}")
-
                         if(temp.snr > 30) {
                             count++;
                             if (count >= 4) {
@@ -92,10 +90,14 @@ class GPSService: Service() {
         listener = object : LocationListener {
 
             override fun onLocationChanged(location: Location) {
-                val i = Intent("location_update")
-                i.putExtra("coordinates", "${location.longitude} --> ${location.latitude}")
-                i.putExtra("gps", intensity)
-                sendBroadcast(i)
+
+                val bundle = Bundle()
+                bundle.putParcelable("locationInfo",location);
+                bundle.putInt("gpsIntensity",intensity);
+
+                val intent = Intent("location_update")
+                intent.putExtras(bundle)
+                sendBroadcast(intent)
             }
 
             override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
