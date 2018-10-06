@@ -3,7 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/colorPrimary"
+              android:background="?attr/colorPrimary"
               android:orientation="vertical">
 
     <LinearLayout
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00KM"
-                android:textColor="#ffffff"
+                android:textColor="?attr/textcolor"
                 android:textSize="30sp"
                 />
 
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Distance"
-                android:textColor="#ffffff"
+                android:textColor="?attr/tintcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time"
-                android:textColor="#ffffff"
+                android:textColor="?attr/tintcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="0.00"
-                    android:textColor="#ffffff"
+                    android:textColor="?attr/textcolor"
                     android:textSize="20sp"
                     />
 
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Average speed(km/h)"
-                    android:textColor="#c0c0c0"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="11sp"
                     />
 
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="0.00"
-                    android:textColor="#ffffff"
+                    android:textColor="?attr/textcolor"
                     android:textSize="20sp"
                     />
 
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Altitude(m)"
-                    android:textColor="#c0c0c0"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="11sp"
                     />
             </LinearLayout>
@@ -153,7 +153,7 @@
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
                 android:text="Lock"
-                android:textColor="#ffffff"
+                android:textColor="?attr/textcolor"
                 android:textSize="17sp"/>
 
             <TextView
@@ -167,7 +167,7 @@
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
                 android:text="Pause"
-                android:textColor="#ffffff"
+                android:textColor="?attr/textcolor"
                 android:textSize="17sp"/>
 
             <TextView
@@ -177,7 +177,7 @@
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
                 android:text="Stop"
-                android:textColor="#ffffff"
+                android:textColor="?attr/textcolor"
                 android:textSize="17sp"/>
         </LinearLayout>
     </LinearLayout>

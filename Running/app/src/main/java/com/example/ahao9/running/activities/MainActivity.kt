@@ -183,7 +183,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_theme -> {
                 return false
             }
-
         }
 
         fragmentTransaction = supportFragmentManager.beginTransaction()
