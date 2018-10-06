@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- default color style-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
     <!--lock screen background-->
     <color name="transparent">#00000000</color>
+
     <!--connect ble page-->
     <color name="colorMainViewCardBackground">#302e3c</color>
     <color name="colorMainViewBackground">#737083</color>
     <color name="colorText">#FFF</color>
-
 </resources>

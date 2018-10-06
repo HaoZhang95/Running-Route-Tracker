@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.progress_circle
+import com.example.ahao9.running.R.id.recycler_view
 import com.example.ahao9.running.adapters.TestActivityAdapter
 import com.example.ahao9.running.database.entity.TestUpload
 import com.google.firebase.database.*

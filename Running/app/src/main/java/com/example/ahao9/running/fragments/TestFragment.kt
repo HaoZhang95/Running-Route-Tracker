@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.*
 import com.example.ahao9.running.activities.TestActivity
 import com.example.ahao9.running.database.entity.TestUpload
 import com.google.firebase.database.DatabaseReference
