@@ -26,75 +26,16 @@ import org.jetbrains.anko.support.v4.toast
  */
 class TestFragment: Fragment() {
 
-    private var broadcastReceiver: BroadcastReceiver? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.test_layout,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(!runtimePermissions()) {
-            enableButtons();
-        } else {
-            toast("Please enable GPS")
-        }
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun enableButtons() {
-        btn_start.setOnClickListener {
-            val i = Intent(context!!.applicationContext, GPSService::class.java)
-            context!!.startService(i)
-        }
 
-        btn_stop.setOnClickListener {
-            val i = Intent(context!!.applicationContext, GPSService::class.java)
-            context!!.stopService(i)
-        }
-    }
 
-    private fun runtimePermissions(): Boolean {
-        if (Build.VERSION.SDK_INT >= 23
-                && ContextCompat.checkSelfPermission(
-                        context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
-
-            return true
-        }
-        return false
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 100){
-            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                enableButtons();
-            }else {
-                runtimePermissions();
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (broadcastReceiver == null) {
-            broadcastReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-
-                    textView.text = ("\n" + intent.extras!!.get("coordinates")!!)
-
-                }
-            }
-        }
-        context!!.registerReceiver(broadcastReceiver, IntentFilter("location_update"))
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if(broadcastReceiver != null){
-            context!!.unregisterReceiver(broadcastReceiver);
-        }
-    }
 
 }
