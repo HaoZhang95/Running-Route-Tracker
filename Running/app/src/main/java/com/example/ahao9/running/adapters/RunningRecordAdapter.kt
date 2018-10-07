@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.example.ahao9.running.R
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.example.ahao9.running.utils.Tools
 import kotlinx.android.synthetic.main.route_record_list_item.view.*
 

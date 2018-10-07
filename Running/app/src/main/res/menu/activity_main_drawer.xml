@@ -27,13 +27,8 @@
             android:title="Bluetooth" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Settings">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:iconTint="?attr/textcolor"
-                android:title="Test" />
             <item
                 android:id="@+id/nav_theme"
                 android:icon="@drawable/baseline_brightness_4_white_24dp"

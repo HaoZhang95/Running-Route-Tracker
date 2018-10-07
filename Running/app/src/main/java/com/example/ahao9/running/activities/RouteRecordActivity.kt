@@ -14,7 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import com.example.ahao9.running.R
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.example.ahao9.running.fragments.HomeFragment
 import com.example.ahao9.running.utils.SharedPref
 import com.example.ahao9.running.utils.Tools

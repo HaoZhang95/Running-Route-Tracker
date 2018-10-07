@@ -26,11 +26,10 @@ import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
-import com.example.ahao9.running.R.id.mapView
 import com.example.ahao9.running.activities.LockScreenActivity
 import com.example.ahao9.running.activities.RouteRecordActivity
-import com.example.ahao9.running.database.entity.MyLatLng
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.MyLatLng
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.example.ahao9.running.services.GPSService
 import com.example.ahao9.running.utils.Tools
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -334,8 +333,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             pointsList.add(point)
         }
         val pathID = mDatabaseRef.push().key
-        val pathEntity = RunningRecordEntity(runningType,distance,startRunningTime,stopRunningTime,
-                runningTime,avgSpeed,altitude,pointsList)
+        val pathEntity = RunningRecordEntity(runningType, distance, startRunningTime, stopRunningTime,
+                runningTime, avgSpeed, altitude, pointsList)
         mDatabaseRef.child(pathID).setValue(pathEntity).addOnSuccessListener{
             toast("Save data successfully")
             startActivity<RouteRecordActivity>("path" to pathEntity )

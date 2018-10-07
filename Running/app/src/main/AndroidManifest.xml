@@ -40,9 +40,7 @@
         <activity
             android:name=".activities.LockScreenActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activities.ConnectBLEActivity" />
         <activity android:name=".activities.RouteRecordActivity" />
-        <activity android:name=".activities.TestActivity"></activity>
     </application>
 
 </manifest>
