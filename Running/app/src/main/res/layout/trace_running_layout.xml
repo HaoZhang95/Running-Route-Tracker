@@ -104,7 +104,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Average speed(km/h)"
+                    android:text="Average speed(m/s)"
                     android:textColor="?attr/tintcolor"
                     android:textSize="11sp"
                     />

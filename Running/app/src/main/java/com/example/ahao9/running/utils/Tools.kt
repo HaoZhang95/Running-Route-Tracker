@@ -1,6 +1,7 @@
 package com.example.ahao9.running.utils
 
 import android.app.Application
+import android.location.Location
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +14,7 @@ import java.util.*
 class Tools {
     companion object {
         private lateinit var app: Application
+        private const val EARTH_RADIUS = 6378.137
 
         fun setUpTools(app: Application) {
             this.app = app
@@ -21,6 +23,19 @@ class Tools {
         fun transferDipToPx(dip: Int): Int {
             val scale = app.resources.displayMetrics.density
             return (scale * dip).toInt()
+        }
+
+        private fun rad(d:Double):Double{
+            return d * Math.PI / 180.0
+        }
+
+        fun getDistance(lat1:Double, lng1:Double,
+                        lat2:Double, lng2:Double):Double {
+
+            val results = FloatArray(1)
+            Location.distanceBetween(lat1,lng1,lat2,lng2, results)
+
+            return results[0].toDouble();
         }
 
         fun getSimpleDate(time: Long): String {

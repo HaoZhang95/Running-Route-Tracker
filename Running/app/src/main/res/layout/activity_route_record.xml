@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/llRecordBottomTop"
-            android:background="#82888e"></View>
+            android:background="?attr/tintcolor"></View>
 
 
         <LinearLayout
@@ -101,30 +101,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/llRecordBottomTop"
             android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvRecordDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="?attr/textcolor"
-                    android:textSize="17sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date"
-                    android:textColor="?attr/tintcolor"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"

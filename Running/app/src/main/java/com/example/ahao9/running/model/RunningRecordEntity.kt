@@ -1,9 +1,8 @@
-package com.example.ahao9.running.database.entity
+package com.example.ahao9.running.model
 
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 
 /**
  * @ Author     ：Hao Zhang.

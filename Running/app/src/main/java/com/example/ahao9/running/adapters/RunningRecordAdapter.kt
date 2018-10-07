@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.example.ahao9.running.R
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.example.ahao9.running.utils.Tools
 import kotlinx.android.synthetic.main.route_record_list_item.view.*
 
@@ -46,7 +46,7 @@ class RunningRecordAdapter(val list: MutableList<RunningRecordEntity>, val conte
                     .setImageResource(if (dataBean.itemType == 1) R.drawable.tracetype_run
                     else R.drawable.tracetype_bike)
 
-            itemView.tvRouteDistance.text = dataBean.mileage.toString()
+            itemView.tvRouteDistance.text = Tools.getSimpleDecimal(dataBean.mileage / 1000)
             itemView.tvRouteTimeLast.text = Tools.getSimpleTime(dataBean.timeLast)
         }
     }

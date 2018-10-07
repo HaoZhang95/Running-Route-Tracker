@@ -21,12 +21,8 @@ import com.dongdongwu.mypermission.MyPermission
 import com.dongdongwu.mypermission.PermissionFailure
 import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
-import com.example.ahao9.running.R.id.drawer_layout
-import com.example.ahao9.running.R.id.nav_view
 import com.example.ahao9.running.fragments.*
 import com.example.ahao9.running.utils.SharedPref
-import com.nispok.snackbar.SnackbarManager
-import com.nispok.snackbar.enums.SnackbarType
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
@@ -42,7 +38,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var bmiFragment: BMIFragment
     private lateinit var historyFragment: HistoryFragment
     private lateinit var bleFragment: BLEFragment
-    private lateinit var testFragment: TestFragment
 
     private lateinit var fragmentArray:Array<Fragment>
     private lateinit var fragmentTagsArray:Array<String>
@@ -125,10 +120,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bmiFragment = BMIFragment()
         historyFragment = HistoryFragment()
         bleFragment = BLEFragment()
-        testFragment = TestFragment()
 
-        fragmentArray = arrayOf(homeFragment, bmiFragment, historyFragment, bleFragment, testFragment)
-        fragmentTagsArray = arrayOf("Running", "BMI","History", "BLE", "Test")
+        fragmentArray = arrayOf(homeFragment, bmiFragment, historyFragment, bleFragment)
+        fragmentTagsArray = arrayOf("Running", "BMI","History", "BLE")
 
         fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -138,25 +132,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         fragmentTransaction.show(fragmentArray[selectedPosition])
         fragmentTransaction.commit()
-    }
-
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     */
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
 
     /**
@@ -176,9 +151,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_manage -> {
                 selectedPosition = 3
-            }
-            R.id.nav_share -> {
-                selectedPosition = 4
             }
             R.id.nav_theme -> {
                 return false

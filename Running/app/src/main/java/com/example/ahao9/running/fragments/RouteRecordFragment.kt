@@ -14,7 +14,7 @@ import android.widget.LinearLayout
 import com.example.ahao9.running.R
 import com.example.ahao9.running.activities.RouteRecordActivity
 import com.example.ahao9.running.adapters.RunningRecordAdapter
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.google.firebase.database.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast

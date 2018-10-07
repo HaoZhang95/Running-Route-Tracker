@@ -14,8 +14,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import com.example.ahao9.running.R
-import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.model.RunningRecordEntity
 import com.example.ahao9.running.fragments.HomeFragment
+import com.example.ahao9.running.utils.SharedPref
 import com.example.ahao9.running.utils.Tools
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -39,9 +40,16 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var mMap: GoogleMap
     private var points = ArrayList<LatLng>()
     private var lineOptions = PolylineOptions()
+    private lateinit var mySharedPref: SharedPref
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mySharedPref = SharedPref(this)
+        if (mySharedPref.loadNightModeState()!!) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_route_record)
         setUpToolbar()
@@ -54,9 +62,8 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
         lineOptions.width(10f);
         lineOptions.color(resources.getColor(R.color.colorPrimary))
 
-        tvRecordLength.text = "${Tools.getSimpleDecimal(path.mileage)} KM"
+        tvRecordLength.text = "${Tools.getSimpleDecimal(path.mileage / 1000)} KM"
         tvRecordTime.text = Tools.getSimpleTime(path.timeLast)
-        tvRecordDate.text = "04/10/2018"
         tvRecordSpeed.text = Tools.getSimpleDecimal(path.avgSpeed)
         tvRecordAltitude.text = Tools.getSimpleDecimal(path.altitude)
 
@@ -75,8 +82,8 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
 
             val bitmapStart = BitmapDescriptorFactory.fromResource(R.drawable.start_pin)
             val bitmapEnd = BitmapDescriptorFactory.fromResource(R.drawable.end_pin)
-            val markerOptionStart = MarkerOptions().position(departure).icon(bitmapStart).title("2018-10-1")
-            val markerOptionsEnd = MarkerOptions().position(dest).icon(bitmapEnd).title("2018-10-2")
+            val markerOptionStart = MarkerOptions().position(departure).icon(bitmapStart).title("Start Here")
+            val markerOptionsEnd = MarkerOptions().position(dest).icon(bitmapEnd).title("End Here")
 
             mMap.addMarker(markerOptionStart)
             mMap.addMarker(markerOptionsEnd)
