@@ -5,7 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.example.ahao9.running.R
-import com.example.ahao9.running.model.RunningRecordBean
+import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.example.ahao9.running.utils.Tools
 import kotlinx.android.synthetic.main.route_record_list_item.view.*
 
 /**
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.route_record_list_item.view.*
  * @ Date       ：Created in 21:13 2018/10/3
  * @ Description：Build for Metropolia project
  */
-class RunningRecordAdapter(val list: List<RunningRecordBean>, val context: Context)
+class RunningRecordAdapter(val list: MutableList<RunningRecordEntity>, val context: Context)
     : RecyclerView.Adapter<RunningRecordAdapter.MyHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -39,14 +40,14 @@ class RunningRecordAdapter(val list: List<RunningRecordBean>, val context: Conte
             }
         }
 
-        fun setDataAndRefreshUI(dataBean: RunningRecordBean) {
+        fun setDataAndRefreshUI(dataBean: RunningRecordEntity) {
 
             itemView.ivRouteType
-                    .setImageResource(if (dataBean.type == 1) R.drawable.tracetype_run
+                    .setImageResource(if (dataBean.itemType == 1) R.drawable.tracetype_run
                     else R.drawable.tracetype_bike)
 
-            itemView.tvRouteDistance.text = dataBean.distance
-            itemView.tvRouteTimeLast.text = dataBean.timeLast
+            itemView.tvRouteDistance.text = dataBean.mileage.toString()
+            itemView.tvRouteTimeLast.text = Tools.getSimpleTime(dataBean.timeLast)
         }
     }
 

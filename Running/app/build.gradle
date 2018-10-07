@@ -35,14 +35,14 @@ allprojects {
         flatDir {
             dirs './', '../Movesense/'
         }
+        androidExtensions {
+            experimental = true
+        }
     }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    /*implementation 'com.android.support:appcompat-v7:28.0.0'
-        implementation 'com.android.support:support-v4:28.0.0'
-        implementation 'com.android.support:design:28.0.0'*/
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:palette-v7:27.1.1'
@@ -57,9 +57,9 @@ dependencies {
     implementation 'org.jetbrains.anko:anko:0.10.6'
 
     // google services
-    implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
-    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.google.android.gms:play-services-places:11.8.0'
 
     // Movesense .aar lib
     implementation(name: 'mdslib', version: '1.6.0(1)-release', ext: 'aar')
@@ -83,4 +83,18 @@ dependencies {
 
     implementation "android.arch.lifecycle:extensions:$livedata_version"
     implementation "android.arch.lifecycle:runtime:$livedata_version"
+
+    // firebase
+    implementation 'com.google.firebase:firebase-database:11.8.0'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+
+    // picasso for loading image
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // third-party snackbar
+    implementation 'com.nispok:snackbar:2.11.+'
+
 }
+
+apply plugin: 'com.google.gms.google-services'

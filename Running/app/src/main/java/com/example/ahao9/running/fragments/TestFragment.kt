@@ -1,22 +1,29 @@
 package com.example.ahao9.running.fragments
 
-import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
+import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
+import android.widget.Toast
 import com.example.ahao9.running.R
-import com.example.ahao9.running.services.GPSService
+import com.example.ahao9.running.R.id.*
+import com.example.ahao9.running.activities.TestActivity
+import com.example.ahao9.running.database.entity.TestUpload
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.test_layout.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.support.v4.startActivity
 
 
 /**
@@ -24,77 +31,89 @@ import org.jetbrains.anko.support.v4.toast
  * @ Date       ：Created in 16:42 2018/9/30
  * @ Description：Build for Metropolia project
  */
-class TestFragment: Fragment() {
+class TestFragment : Fragment() {
 
-    private var broadcastReceiver: BroadcastReceiver? = null
+    companion object {
+        const val PICK_IMAGE_REQUEST = 1;
+    }
+
+    private var mImageUri: Uri? = null
+    private lateinit var mStorageRef: StorageReference
+    private lateinit var mDatabaseRef: DatabaseReference
+    private var mUploadTask: StorageTask<UploadTask.TaskSnapshot>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.test_layout,container,false)
+        return inflater.inflate(R.layout.test_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(!runtimePermissions()) {
-            enableButtons();
-        } else {
-            toast("Please enable GPS")
-        }
         super.onViewCreated(view, savedInstanceState)
-    }
 
-    private fun enableButtons() {
-        btn_start.setOnClickListener {
-            val i = Intent(context!!.applicationContext, GPSService::class.java)
-            context!!.startService(i)
-        }
-
-        btn_stop.setOnClickListener {
-            val i = Intent(context!!.applicationContext, GPSService::class.java)
-            context!!.stopService(i)
-        }
-    }
-
-    private fun runtimePermissions(): Boolean {
-        if (Build.VERSION.SDK_INT >= 23
-                && ContextCompat.checkSelfPermission(
-                        context!!, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
-
-            return true
-        }
-        return false
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 100){
-            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                enableButtons();
-            }else {
-                runtimePermissions();
+        button_choose_image.setOnClickListener { openFileChooer() }
+        button_upload.setOnClickListener {
+            if (mUploadTask != null && mUploadTask!!.isInProgress) {
+                Toast.makeText(context, "Upload in progress", Toast.LENGTH_SHORT).show();
+            } else {
+                uploadFile();
             }
         }
+        text_view_show_uploads.setOnClickListener { showAllPics() }
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (broadcastReceiver == null) {
-            broadcastReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
+    private fun showAllPics() {
+        startActivity<TestActivity>()
+    }
 
-                    textView.text = ("\n" + intent.extras!!.get("coordinates")!!)
+    private fun getFileExtension(uri: Uri): String {
+        val cR = context!!.contentResolver
+        val mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
 
-                }
+    private fun uploadFile() {
+        if (mImageUri != null) {
+            val fileReference = mStorageRef.child(" ${System.currentTimeMillis()}.${getFileExtension(mImageUri!!)}");
+
+            mUploadTask = fileReference.putFile(mImageUri!!).addOnSuccessListener {
+
+                val handler = Handler()
+                handler.postDelayed(Runnable {
+                    progress_bar.progress = 0;
+
+                }, 500)
+                Toast.makeText(context, "Upload successful", Toast.LENGTH_LONG).show();
+                val upload = TestUpload(edit_text_file_name.text.toString().trim(),
+                        it.downloadUrl.toString());
+                val uploadId = mDatabaseRef.push().key;
+                mDatabaseRef.child(uploadId).setValue(upload);
+
+            }.addOnFailureListener {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show();
+            }.addOnProgressListener {
+                val progress = 100.0 * it.bytesTransferred / it.totalByteCount
+                progress_bar.progress = progress.toInt()
             }
-        }
-        context!!.registerReceiver(broadcastReceiver, IntentFilter("location_update"))
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if(broadcastReceiver != null){
-            context!!.unregisterReceiver(broadcastReceiver);
+        } else {
+            Toast.makeText(context, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private fun openFileChooer() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.data != null) {
+            mImageUri = data.data;
+            Picasso.with(context).load(mImageUri).into(image_view);
+        }
+    }
 }

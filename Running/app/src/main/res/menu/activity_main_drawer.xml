@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_running"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/baseline_directions_run_white_24dp"
+            android:iconTint="?attr/textcolor"
             android:title="Running" />
         <item
             android:id="@+id/nav_bmi"
-            android:icon="@drawable/op_weight_height"
+            android:icon="@drawable/baseline_bar_chart_white_24dp"
+            android:iconTint="?attr/textcolor"
             android:title="BMI" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@drawable/op_got"
+            android:icon="@drawable/baseline_history_white_24dp"
+            android:iconTint="?attr/textcolor"
             android:title="History" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/baseline_bluetooth_searching_white_24dp"
+            android:iconTint="?attr/textcolor"
             android:title="Bluetooth" />
     </group>
 
@@ -27,7 +32,15 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
+                android:iconTint="?attr/textcolor"
                 android:title="Test" />
+            <item
+                android:id="@+id/nav_theme"
+                android:icon="@drawable/baseline_brightness_4_white_24dp"
+                android:iconTint="?attr/textcolor"
+                android:title="Night Mode"
+                app:actionLayout="@layout/layout_switch"
+                />
         </menu>
     </item>
 

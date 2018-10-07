@@ -11,7 +11,7 @@
         android:id="@+id/routeToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         app:navigationIcon="@mipmap/back"
         app:title="Route Details"
         app:titleTextColor="@android:color/white"
@@ -33,7 +33,7 @@
         android:id="@+id/rlRecordBottom"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="@color/colorPrimary">
+        android:background="?attr/colorPrimary">
 
         <LinearLayout
             android:id="@+id/llRecordBottomTop"
@@ -53,14 +53,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="30sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Distance"
-                    android:textColor="@color/colorMainViewBackground"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -76,14 +76,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="30sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Time Last"
-                    android:textColor="@color/colorMainViewBackground"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -114,14 +114,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="17sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date"
-                    android:textColor="@color/colorMainViewBackground"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="12sp"/>
 
             </LinearLayout>
@@ -138,14 +138,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="17sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Avg Speed (km/h)"
-                    android:textColor="@color/colorMainViewBackground"
+                    android:text="Speed (m/s)"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="12sp"/>
             </LinearLayout>
 
@@ -161,14 +161,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/colorText"
+                    android:textColor="?attr/textcolor"
                     android:textSize="17sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Altitude (m)"
-                    android:textColor="@color/colorMainViewBackground"
+                    android:textColor="?attr/tintcolor"
                     android:textSize="12sp"/>
             </LinearLayout>
 

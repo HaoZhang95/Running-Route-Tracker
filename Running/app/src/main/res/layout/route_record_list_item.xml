@@ -40,7 +40,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="72dp"
                 android:gravity="center"
-                android:text="2.44"
+                android:text="12.44"
                 android:textColor="@color/colorMainViewCardBackground"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="115dp"
+                android:layout_marginLeft="130dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="km"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical">
 
@@ -19,12 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/backgrounp_gray1"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <!--            android:drawableRight="@drawable/gps_signal_0"
--->
         <TextView
             android:id="@+id/tvGpsView"
             android:layout_width="wrap_content"
@@ -34,8 +32,9 @@
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="GPS ★★☆"
-            android:textColor="#ffffff"
+            android:text="GPS ☆☆☆"
+            android:textColor="?attr/textcolor"
+            android:visibility="visible"
             android:textSize="12sp"/>
     </LinearLayout>
 
@@ -45,7 +44,7 @@
         android:layout_height="200dp"
         android:layout_above="@+id/rlRunningBottomLayoutStarted"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:visibility="visible">
 
         <LinearLayout
@@ -90,7 +89,7 @@
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
                 android:text="Start"
-                android:textColor="#ffffff"
+                android:textColor="?attr/textcolor"
                 android:textSize="17sp"/>
 
         </LinearLayout>
@@ -110,7 +109,7 @@
         android:id="@+id/rlLockLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#40000000"
+        android:background="#84000000"
         android:clickable="true"
         android:visibility="gone">
     </RelativeLayout>
@@ -120,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:background="#80000000"
+        android:background="#84000000"
         android:clickable="true">
 
         <TextView

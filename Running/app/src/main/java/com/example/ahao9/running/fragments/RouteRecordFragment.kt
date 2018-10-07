@@ -14,10 +14,10 @@ import android.widget.LinearLayout
 import com.example.ahao9.running.R
 import com.example.ahao9.running.activities.RouteRecordActivity
 import com.example.ahao9.running.adapters.RunningRecordAdapter
-import com.example.ahao9.running.model.RunningRecordBean
+import com.example.ahao9.running.database.entity.RunningRecordEntity
+import com.google.firebase.database.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import java.util.ArrayList
 
 /**
  * @ Author     ：Hao Zhang.
@@ -25,13 +25,14 @@ import java.util.ArrayList
  * @ Description：Build for Metropolia project
  */
 class RouteRecordFragment: Fragment() {
-
-    private val fakeDataList = ArrayList<RunningRecordBean>()
     private lateinit var mListAdapter: RunningRecordAdapter
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var rvRecords: RecyclerView
     private var type: Int = 1
     private val mHandler = Handler()
+    private lateinit var mDatabaseRef: DatabaseReference
+    private var mDBListener: ValueEventListener? = null
+    private var routeRecordsList: MutableList<RunningRecordEntity> = mutableListOf()
 
     companion object {
         const val ID = "type"
@@ -45,14 +46,35 @@ class RouteRecordFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("RunningPath")
+
+        mDBListener = mDatabaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                toast(databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                routeRecordsList.clear()
+                for (postSnapshot in dataSnapshot.children) {
+                    val record = postSnapshot.getValue(RunningRecordEntity::class.java)
+                    if (record != null) {
+                        if (record.itemType == type) {
+                            record.setKey(postSnapshot.key)
+                            routeRecordsList.add(record)
+                        }
+                    }
+                }
+                mListAdapter.notifyDataSetChanged()
+            }
+        })
+
         refreshLayout = view.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
         rvRecords = view.findViewById(R.id.rvRecords) as RecyclerView
 
-        setUpFakeData()
-
-        setUpListeners()
-
+        mListAdapter = RunningRecordAdapter(routeRecordsList, context!!)
         setUpRecycleView()
+        setUpListeners()
     }
 
     private fun setUpRecycleView() {
@@ -66,38 +88,13 @@ class RouteRecordFragment: Fragment() {
         refreshLayout.setOnRefreshListener {
             mHandler.postDelayed({
                 refreshLayout.isRefreshing = false
-                toast("Refresh not implement yet")
             }, 1000)
         }
 
         mListAdapter.setOnItemClickListener(object : RunningRecordAdapter.MyItemClickListener {
             override fun onItemClick(view: View, postion: Int) {
-                toast("Type: ${this@RouteRecordFragment.type} ---  Distance: ${fakeDataList[postion].distance}")
-                startActivity<RouteRecordActivity>()
+                startActivity<RouteRecordActivity>("path" to routeRecordsList[postion] )
             }
         })
     }
-
-    private fun setUpFakeData() {
-
-        val runningRecordBean1 = RunningRecordBean(1,"2.4", "0:00:12")
-        val runningRecordBean2 = RunningRecordBean(1,"2.4", "0:00:12")
-        val runningRecordBean3 = RunningRecordBean(1,"2.4", "0:00:12")
-        val runningRecordBean4 = RunningRecordBean(2,"2.4", "0:00:12")
-        val runningRecordBean5 = RunningRecordBean(2,"2.4", "0:00:12")
-        val runningRecordBean6 = RunningRecordBean(2,"2.4", "0:00:12")
-
-        if (type == 1) {
-            fakeDataList.add(runningRecordBean1)
-            fakeDataList.add(runningRecordBean2)
-            fakeDataList.add(runningRecordBean3)
-        } else {
-            fakeDataList.add(runningRecordBean4)
-            fakeDataList.add(runningRecordBean5)
-            fakeDataList.add(runningRecordBean6)
-        }
-
-        mListAdapter = RunningRecordAdapter(fakeDataList, context!!)
-    }
-
 }

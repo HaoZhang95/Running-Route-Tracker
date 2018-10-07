@@ -2,27 +2,37 @@ package com.example.ahao9.running.activities
 
 
 import android.Manifest
+import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SwitchCompat
 import android.view.Menu
 import android.view.MenuItem
 import com.dongdongwu.mypermission.MyPermission
 import com.dongdongwu.mypermission.PermissionFailure
 import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.drawer_layout
+import com.example.ahao9.running.R.id.nav_view
 import com.example.ahao9.running.fragments.*
+import com.example.ahao9.running.utils.SharedPref
+import com.nispok.snackbar.SnackbarManager
+import com.nispok.snackbar.enums.SnackbarType
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
         const val REQUEST_PERMISSION_CODE = 1
@@ -37,9 +47,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fragmentArray:Array<Fragment>
     private lateinit var fragmentTagsArray:Array<String>
     private lateinit var fragmentTransaction: FragmentTransaction
+    private lateinit var themeSwitcher: SwitchCompat
+    private lateinit var mySharedPref: SharedPref
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mySharedPref = SharedPref(this)
+        if (mySharedPref.loadNightModeState()!!) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -48,16 +66,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
-
         setUpFragments()
+        nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_running)
+
+        val menu = nav_view.menu
+        val themeItem = menu.findItem(R.id.nav_theme)
+        val actionView = MenuItemCompat.getActionView(themeItem)
+
+        themeSwitcher = actionView.findViewById(R.id.theme_switch) as SwitchCompat
+        themeSwitcher.isChecked = mySharedPref.loadNightModeState()!!
+        themeSwitcher.setOnCheckedChangeListener { view, isChecked ->
+            mySharedPref.setNightModeState(isChecked)
+            restartApp()
+        }
 
         MyPermission.with(this)
                 .setRequestCode(REQUEST_PERMISSION_CODE)
                 .setRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                 .requestPermission();
+    }
+
+    private fun restartApp() {
+        val i = Intent(applicationContext, MainActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
     /**
@@ -145,6 +179,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_share -> {
                 selectedPosition = 4
+            }
+            R.id.nav_theme -> {
+                return false
             }
         }
 

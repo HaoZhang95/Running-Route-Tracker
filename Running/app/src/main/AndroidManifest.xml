@@ -33,15 +33,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        
+
         <!-- gps service -->
-        <service android:name=".services.GPSService"></service>
-        
+        <service android:name=".services.GPSService" />
+
         <activity
             android:name=".activities.LockScreenActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activities.ConnectBLEActivity" />
-        <activity android:name=".activities.RouteRecordActivity"></activity>
+        <activity android:name=".activities.RouteRecordActivity" />
+        <activity android:name=".activities.TestActivity"></activity>
     </application>
 
 </manifest>
