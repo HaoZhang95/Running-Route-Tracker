@@ -46,7 +46,7 @@ class RunningRecordAdapter(val list: MutableList<RunningRecordEntity>, val conte
                     .setImageResource(if (dataBean.itemType == 1) R.drawable.tracetype_run
                     else R.drawable.tracetype_bike)
 
-            itemView.tvRouteDistance.text = dataBean.mileage.toString()
+            itemView.tvRouteDistance.text = Tools.getSimpleDecimal(dataBean.mileage / 1000)
             itemView.tvRouteTimeLast.text = Tools.getSimpleTime(dataBean.timeLast)
         }
     }

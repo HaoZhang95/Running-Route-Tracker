@@ -26,6 +26,7 @@ import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.mapView
 import com.example.ahao9.running.activities.LockScreenActivity
 import com.example.ahao9.running.activities.RouteRecordActivity
 import com.example.ahao9.running.database.entity.MyLatLng
@@ -383,54 +384,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         mapView.layoutParams = mLayoutParams
     }
 
-    /**
-     * draw lines on the map
-     */
-    private fun updateLocationUI() {
-        try {
-            val polyline = mMap.addPolyline(PolylineOptions().add(LatLng(-34.747, 145.592),
-                    LatLng(-34.364, 147.891), LatLng(-33.501, 150.217),
-                    LatLng(-32.306, 149.248), LatLng(-32.491, 147.309)
-            ))
-
-            // Store a data object with the polyline, used here to indicate an arbitrary type.
-            polyline.tag = "A"
-            // stylePolyline(polyline)
-
-            mMap.setOnMyLocationButtonClickListener(this)
-            mMap.setOnMyLocationClickListener(this)
-        } catch (e: SecurityException) {
-            Log.e("Exception: %s", e.message)
-        }
-    }
-
-    /**
-     * Customize polyline style
-     */
-    private val colorBlack = 0xff000000
-    private val polylineStrokeWidth = 12f
-    private fun stylePolyline(polyline: Polyline) {
-        var type = ""
-        if (polyline.tag != null) {
-            type = polyline.tag.toString()
-        }
-
-        when (type) {
-        // If no type is given, allow the API to use the default.
-            "A" -> {
-                // Use a custom bitmap as the cap at the start of the line.
-                polyline.startCap = CustomCap(
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_arrow), 10f)
-            }
-        // Use a round cap at the start of the line.
-        //polyline.setStartCap(RoundCap())
-        }
-        polyline.endCap = RoundCap()
-        polyline.width = polylineStrokeWidth
-        polyline.color = colorBlack.toInt()
-        polyline.jointType = JointType.ROUND
-    }
-
     override fun onMyLocationClick(location: Location) {
         Log.e(TAG, "latitude: ${location.latitude} --- longitude: ${location.longitude}")
     }
@@ -462,15 +415,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
                     val latLng = LatLng(location.latitude, location.longitude)
 
                     if (isRunning) {
-//                        points.add(latLng)
-                        lineOptions.add(latLng)
-                        mMap.addPolyline(lineOptions)
+                        mMap.addPolyline(lineOptions.add(latLng))
 
                         altitude = location.altitude
-                        distance = 123.4
-                        avgSpeed = location.speed.toDouble()
+
+                        val size = lineOptions.points.size
+                        if (size > 1) {
+                            val a = lineOptions.points[size - 1]
+                            val b = lineOptions.points[size - 2]
+                            distance += Tools.getDistance(b.latitude,b.longitude, a.latitude,a.longitude)
+                        } else {
+                            distance = 0.00
+                        }
+
+                        Log.d("距离",distance.toString())
+
+                        avgSpeed = distance / (runningTime / 1000)  // unit: m/s
                         tvRunningAltitude.text = Tools.getSimpleDecimal(altitude)
-                        tvRunningDistance.text = "${Tools.getSimpleDecimal(distance)}KM"
+                        tvRunningDistance.text = "${Tools.getSimpleDecimal(distance/1000)}KM"
                         tvRunningAverageSpeed.text =Tools.getSimpleDecimal(avgSpeed)
 
                     }
