@@ -14,11 +14,11 @@ class Tools {
     companion object {
         private lateinit var app: Application
 
-        fun setUpTools(app: Application){
+        fun setUpTools(app: Application) {
             this.app = app
         }
 
-        fun transferDipToPx(dip: Int): Int{
+        fun transferDipToPx(dip: Int): Int {
             val scale = app.resources.displayMetrics.density
             return (scale * dip).toInt()
         }
@@ -31,6 +31,21 @@ class Tools {
         fun getSimpleDecimal(num: Double): String {
             val decimalFormat = DecimalFormat("0.00")
             return decimalFormat.format(num)
+        }
+
+        /**
+         * transfer million seconds to 24:59 this kind of format
+         */
+        fun getSimpleTime(num: Long): String {
+            var time = ""
+            var minute = num / 60000
+            var seconds = num % 60000
+            var second = Math.round (seconds / 1000.0)
+            if (minute < 10) { time += "0" }
+            time +="$minute:"
+            if (second < 10) {time += "0"}
+            time += second
+            return time
         }
 
     }

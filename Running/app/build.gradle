@@ -35,6 +35,9 @@ allprojects {
         flatDir {
             dirs './', '../Movesense/'
         }
+        androidExtensions {
+            experimental = true
+        }
     }
 }
 dependencies {

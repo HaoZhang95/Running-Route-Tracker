@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -25,14 +26,18 @@ import android.view.animation.ScaleAnimation
 import android.widget.Chronometer
 import android.widget.RelativeLayout
 import com.example.ahao9.running.R
-import com.example.ahao9.running.R.id.*
 import com.example.ahao9.running.activities.LockScreenActivity
+import com.example.ahao9.running.activities.RouteRecordActivity
+import com.example.ahao9.running.database.entity.MyLatLng
+import com.example.ahao9.running.database.entity.RunningRecordEntity
 import com.example.ahao9.running.services.GPSService
 import com.example.ahao9.running.utils.Tools
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.home_layout.*
 import kotlinx.android.synthetic.main.trace_running_layout.*
 import org.jetbrains.anko.support.v4.startActivity
@@ -49,6 +54,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
     private var countNum = 2
     private var runningBottomStartedheight = 0
     private var runningTime: Long = 0
+    private var startRunningTime: Long = 0
+    private var stopRunningTime: Long = 0
+    private var altitude: Double = 0.00
+    private var distance: Double = 0.00
+    private var avgSpeed: Double = 0.00
+
     private var isPause = false
     private val aniTime: Long = 300
     private var runningType = 1
@@ -65,8 +76,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
     companion object {
         const val DEFAULT_ZOOM_LEVEL = 15f
     }
-    private var points = ArrayList<LatLng>()
+
     private var lineOptions = PolylineOptions()
+    private lateinit var mDatabaseRef: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         myView = inflater.inflate(R.layout.home_layout, container, false)
@@ -79,6 +91,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         setUpViewClickListeners()
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("RunningPath")
 
         val mLayoutParams = mapView.layoutParams as RelativeLayout.LayoutParams
         mLayoutParams.bottomMargin = Tools.transferDipToPx(200)
@@ -233,11 +247,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
     }
 
     private fun updateTvBasedOnSportType(mSportType: Int) {
-        toast("runningType: $mSportType")
+        var tip = ""
+        if (mSportType == 1) {
+            tip = "Running type selected"
+        } else {
+            tip = "Cycling type selected"
+        }
+        toast(tip)
     }
 
     /**
-     * 开始运动后信息布局移动动画
+     * layout animation for y-axis
      *
      * @param y1
      * @param y2
@@ -262,6 +282,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
     }
 
     /**
+     * layout animation for x-axis
      * Restore animation by pressing pause button
      * @param x1  start x position
      * @param x2  end x position
@@ -295,11 +316,31 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             val zoom = CameraUpdateFactory.zoomTo(DEFAULT_ZOOM_LEVEL)
             mMap.animateCamera(zoom)
             mMap.clear()
+
+            // begin to upload route to firebase
+            stopRunningTime = System.currentTimeMillis()
+            uploadRunningRoute()
         }
-        builder.setNegativeButton("Continue Running") { _, _ ->
-            // do something
-        }
+        builder.setNegativeButton("Continue Running") { _, _ -> }
         builder.create().show()
+    }
+
+    private var pointsList = mutableListOf<MyLatLng>()
+    private fun uploadRunningRoute() {
+
+        for (temp in lineOptions.points) {
+            val point = MyLatLng(temp.latitude, temp.longitude)
+            pointsList.add(point)
+        }
+        val pathID = mDatabaseRef.push().key
+        val pathEntity = RunningRecordEntity(runningType,distance,startRunningTime,stopRunningTime,
+                runningTime,avgSpeed,altitude,pointsList)
+        mDatabaseRef.child(pathID).setValue(pathEntity).addOnSuccessListener{
+            toast("Save data successfully")
+            startActivity<RouteRecordActivity>("path" to pathEntity )
+        }.addOnFailureListener {
+            toast(it.message.toString())
+        }
     }
 
 
@@ -307,6 +348,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         isRunning = true
         tvChronometer.base = SystemClock.elapsedRealtime()
         tvChronometer.start()
+        startRunningTime = System.currentTimeMillis()
 
         rlRunningBottomLayoutStarted.visibility = View.VISIBLE
         rlRunningBottomLayout.visibility = View.GONE
@@ -412,6 +454,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
 
         if (broadcastReceiver == null) {
             broadcastReceiver = object : BroadcastReceiver() {
+                @SuppressLint("SetTextI18n")
                 override fun onReceive(context: Context, intent: Intent) {
 
                     val location = intent.extras.getParcelable<Location>("locationInfo")
@@ -419,18 +462,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
                     val latLng = LatLng(location.latitude, location.longitude)
 
                     if (isRunning) {
+//                        points.add(latLng)
                         lineOptions.add(latLng)
                         mMap.addPolyline(lineOptions)
 
-
-                        tvRunningAltitude.text = Tools.getSimpleDecimal(location.altitude)
-                        tvRunningDistance.text = getString(R.string.distance)
-                        tvRunningAverageSpeed.text =Tools.getSimpleDecimal(location.speed.toDouble())
+                        altitude = location.altitude
+                        distance = 123.4
+                        avgSpeed = location.speed.toDouble()
+                        tvRunningAltitude.text = Tools.getSimpleDecimal(altitude)
+                        tvRunningDistance.text = "${Tools.getSimpleDecimal(distance)}KM"
+                        tvRunningAverageSpeed.text =Tools.getSimpleDecimal(avgSpeed)
 
                     }
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                    Log.d(TAG, "lat: ${location.latitude} --- lng: ${location.longitude} --- gpsIntensity: $gpsIntensity")
-                    Log.d(TAG, "speed: ${location.speed} --- altitude: ${location.altitude}")
+                    Log.d(TAG, "isrunning:${isRunning} lat: ${location.latitude} --- lng: ${location.longitude} --- gpsIntensity: $gpsIntensity")
+                    Log.d(TAG, "isrunning:${isRunning} speed: ${location.speed} --- altitude: ${location.altitude}")
                     when (gpsIntensity) {
                         3 -> {
                             tvGpsView.text = "GPS ★★★"
