@@ -11,7 +11,7 @@ Hao Zhang && Mikael Ramo
 - Android Studio
 
 ## Cautions and Project Structure
-It requires GPS and Network permissions, the former one is used to locate yourself while running, the latter one is used to upload your running data to web database.
+It requires GPS and Network permissions, the former one is used to locate yourself while running, the latter one is used to upload your running data to web database. And you need a Google Maps API key and paste your key into [google_maps_api.xml] (app/src/debug/res/values/google_maps_api.xml)
 ![Route](https://i.imgur.com/y9e5Pyx.png)
 
 ## Knowledge required and covered
