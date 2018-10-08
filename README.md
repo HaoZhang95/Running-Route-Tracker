@@ -37,7 +37,7 @@ It requires GPS and Network permissions, the former one is used to locate yourse
 |![Home](https://i.imgur.com/PJMS5N7.png)     |![Details](https://i.imgur.com/GYc5eC4.png) |![DarkHome](https://i.imgur.com/drVDn7c.png)|![DarkDetails](https://i.imgur.com/nLltlAS.png)|
 
 ## UI Documentation
-More details can be found in [Here](https:/xxx)
+More details can be found in [Here](https://drive.google.com/drive/u/1/folders/1Pis_Fp-WW-sY4XwzR1-8VR4oKVCQva-k?usp=sharing)
 
 ## Test
 This app was tested successfully on Huawei cell phone (version 6.0) using Android Studio 3.1.1
