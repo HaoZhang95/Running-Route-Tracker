@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
 
     // permission request
-    implementation 'com.github.Thor-jelly:MyPermission:v1.0.1'
+    // implementation 'com.github.Thor-jelly:MyPermission:v1.0.1'
 
     // room and live data
     implementation "android.arch.persistence.room:runtime:$room_version"

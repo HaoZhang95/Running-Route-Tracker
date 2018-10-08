@@ -129,6 +129,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
+    /**
+     * Setup map components
+     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         try {
@@ -159,18 +162,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             scaleAnimation.repeatCount = 2
             tvTimer.startAnimation(scaleAnimation)
 
+            /**
+             * start a timer
+             */
             scaleAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation) {
 
                 }
-
                 override fun onAnimationEnd(animation: Animation) {
                     CountLayout.visibility = View.GONE
                     countNum = 2
                     tvTimer.text = "3"
                     startRunning()
                 }
-
                 override fun onAnimationRepeat(animation: Animation) {
                     tvTimer.text = "$countNum"
                     countNum--
@@ -178,6 +182,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             })
         }
 
+        /**
+         * scale layout to make map larger
+         */
         llRunningBottomLayoutTopPart.setOnClickListener {
             if (llRunningBottomLayoutBottomPart.layoutParams.height != 0) {
                 (mapView.layoutParams as RelativeLayout.LayoutParams).bottomMargin = llRunningBottomLayoutTopPart.height
@@ -191,17 +198,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             }
         }
 
-
         tvRunningStop.setOnClickListener { onStopSport() }
 
+        /**
+         * time count
+         */
         tvChronometer = this.view!!.findViewById<Chronometer>(R.id.tvRunningTime)
-
         tvChronometer.onChronometerTickListener = Chronometer.OnChronometerTickListener { chronometer ->
             runningTime = SystemClock.elapsedRealtime() - chronometer.base
         }
 
         /*
-         *
+         * pause running
          */
         tvRunningPause.setOnClickListener {
             tvRunningStop.isClickable = false
@@ -224,7 +232,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         }
 
         /**
-         *
+         * switch running type, 1- represents running  2- represents cycling
          */
         ivRunningType.setOnClickListener {
             ivRunningType.setImageResource(R.drawable.trance_run)
@@ -241,7 +249,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         }
 
         /**
-         * lock
+         * lock screen
          */
         tvRunningLock.setOnClickListener { startActivity<LockScreenActivity>() }
     }
@@ -303,6 +311,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         mAnimator.setDuration(aniTime).start()
     }
 
+    /**
+     * stop running and uploading a bunch of coordinate to web firebase database
+     */
     private fun onStopSport() {
         val builder = AlertDialog.Builder(context!!)
         builder.setMessage("Confirm the completion of this exercise?")
@@ -342,7 +353,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
             toast(it.message.toString())
         }
     }
-
 
     private fun startRunning() {
         isRunning = true
@@ -400,6 +410,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
         mapView.onSaveInstanceState(outState)
     }
 
+    /**
+     * Utilizing Service and Broadcast Receiver to update latLng
+     */
     override fun onResume() {
         mapView.onResume()
         super.onResume()
@@ -426,8 +439,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback,
                         } else {
                             distance = 0.00
                         }
-
-                        Log.d("距离",distance.toString())
 
                         avgSpeed = distance / (runningTime / 1000)  // unit: m/s
                         tvRunningAltitude.text = Tools.getSimpleDecimal(altitude)

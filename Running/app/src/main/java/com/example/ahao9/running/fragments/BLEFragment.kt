@@ -31,7 +31,6 @@ import rx.Subscription
  */
 class BLEFragment: Fragment(), AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
 
-
     private val TAG = "hero"
 
     // MDS is the official library of movesense sensor
