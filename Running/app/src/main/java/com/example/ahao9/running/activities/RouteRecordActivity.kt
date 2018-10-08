@@ -50,10 +50,17 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
         } else {
             setTheme(R.style.AppTheme)
         }
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_route_record)
         setUpToolbar()
+        setUpMapComponent()
 
+        recordMapView.onCreate(savedInstanceState)
+        recordMapView.getMapAsync(this)
+    }
+
+    private fun setUpMapComponent() {
         val path = intent.extras["path"] as RunningRecordEntity
         for (temp in path.coordinates) {
             points.add(LatLng(temp.latitude, temp.longitude))
@@ -66,13 +73,9 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
         tvRecordTime.text = Tools.getSimpleTime(path.timeLast)
         tvRecordSpeed.text = Tools.getSimpleDecimal(path.avgSpeed)
         tvRecordAltitude.text = Tools.getSimpleDecimal(path.altitude)
-
-        recordMapView.onCreate(savedInstanceState)
-        recordMapView.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-
         mMap = googleMap
         mMap.addPolyline(lineOptions)
 
@@ -120,7 +123,6 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
                 fout?.close()
             }
         }
-
         mMap.snapshot(callback)
     }
 
@@ -129,7 +131,6 @@ class RouteRecordActivity : AppCompatActivity(), OnMapReadyCallback,
      */
     private fun openShareImageDialog(filePath: String) {
         val file = this.getFileStreamPath(filePath)
-
         if (filePath != "") {
             val values = ContentValues(2)
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")

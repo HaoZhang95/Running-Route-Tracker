@@ -10,7 +10,7 @@ import android.content.SharedPreferences
  */
 class SharedPref(val context: Context) {
 
-    private var mySharedPref: SharedPreferences = context.getSharedPreferences("themeSetting", Context.MODE_PRIVATE)
+    private var mySharedPref: SharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
     /**
      * this method will save the nightMode State : True or False
@@ -26,5 +26,21 @@ class SharedPref(val context: Context) {
      */
     fun loadNightModeState(): Boolean? {
         return mySharedPref.getBoolean("NightMode", false)
+    }
+
+    /**
+     * this method will save the auto lock State : True or False
+     */
+    fun setAutoLockState(state: Boolean?) {
+        val editor = mySharedPref.edit()
+        editor.putBoolean("AutoLock", state!!)
+        editor.apply()
+    }
+
+    /**
+     * this method will load the Night Mode State
+     */
+    fun loadAutoLockState(): Boolean? {
+        return mySharedPref.getBoolean("AutoLock", false)
     }
 }

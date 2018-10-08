@@ -75,6 +75,9 @@ class GPSService: Service() {
         }
     }
 
+    /**
+     * Utilizing Service and Broadcast Receiver to update latLng
+     */
     override fun onBind(intent: Intent): IBinder? {
         return null
     }

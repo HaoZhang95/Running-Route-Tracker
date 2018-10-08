@@ -1,13 +1,13 @@
 package com.example.ahao9.running.activities
 
-
-import android.Manifest
+import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -15,35 +15,38 @@ import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
-import android.view.Menu
+import android.util.Log
 import android.view.MenuItem
-import com.dongdongwu.mypermission.MyPermission
-import com.dongdongwu.mypermission.PermissionFailure
-import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
-import com.example.ahao9.running.fragments.*
+import com.example.ahao9.running.fragments.BLEFragment
+import com.example.ahao9.running.fragments.BMIFragment
+import com.example.ahao9.running.fragments.HistoryFragment
+import com.example.ahao9.running.fragments.HomeFragment
 import com.example.ahao9.running.utils.SharedPref
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+        SensorEventListener {
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    companion object {
-        const val REQUEST_PERMISSION_CODE = 1
-    }
     private var selectedPosition = 0
     private lateinit var homeFragment: HomeFragment
     private lateinit var bmiFragment: BMIFragment
     private lateinit var historyFragment: HistoryFragment
     private lateinit var bleFragment: BLEFragment
-
     private lateinit var fragmentArray:Array<Fragment>
     private lateinit var fragmentTagsArray:Array<String>
     private lateinit var fragmentTransaction: FragmentTransaction
+
     private lateinit var themeSwitcher: SwitchCompat
+    private lateinit var lockSwitcher: SwitchCompat
     private lateinit var mySharedPref: SharedPref
+    private lateinit var sensorManager: SensorManager
+    private var proximitySensor: Sensor? = null
+    companion object {
+        var isLocked = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             setTheme(R.style.AppTheme)
         }
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -65,6 +69,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_running)
 
+        /**
+         * setup day/might mode, so that user can change theme
+         */
         val menu = nav_view.menu
         val themeItem = menu.findItem(R.id.nav_theme)
         val actionView = MenuItemCompat.getActionView(themeItem)
@@ -76,40 +83,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             restartApp()
         }
 
-        MyPermission.with(this)
-                .setRequestCode(REQUEST_PERMISSION_CODE)
-                .setRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                .requestPermission();
+        /**
+         * setup auto lock screen
+         */
+        val lockItem = nav_view.menu.findItem(R.id.nav_lock)
+        val lockActionView = MenuItemCompat.getActionView(lockItem)
+
+        lockSwitcher = lockActionView.findViewById(R.id.lock_switch) as SwitchCompat
+        lockSwitcher.isChecked = mySharedPref.loadAutoLockState()!!
+        lockSwitcher.setOnCheckedChangeListener { view, isChecked ->
+            mySharedPref.setAutoLockState(isChecked)
+        }
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
     }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.values[0] == 0.0f) {
+            Log.d("hero","isLocked: $isLocked isAutoLock: ${mySharedPref.loadAutoLockState()}")
+            if (!isLocked && mySharedPref.loadAutoLockState()!!) {
+                startActivity<LockScreenActivity>()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (proximitySensor != null) {
+            sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sensorManager.unregisterListener(this)
+    }
+
 
     private fun restartApp() {
         val i = Intent(applicationContext, MainActivity::class.java)
         startActivity(i)
         finish()
-    }
-
-    /**
-     * Request location permission, so that we can get the location of the
-     * device. The result of the permission request is handled by a callback,
-     * onRequestPermissionsResult.
-     */
-    @PermissionSuccess(requestCode = REQUEST_PERMISSION_CODE)
-    private fun callPermissionSuccess() { }
-
-    @PermissionFailure(requestCode = REQUEST_PERMISSION_CODE)
-    private fun callPermissionFailure() {
-        toast("Permissions are Missing")
-        ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_PERMISSION_CODE)
-        finish()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        MyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     /**
@@ -155,6 +170,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_theme -> {
                 return false
             }
+            R.id.nav_lock -> {
+                return false
+            }
         }
 
         fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -176,5 +194,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         title = fragmentTagsArray[selectedPosition]
         this.drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
     }
 }

@@ -34,7 +34,14 @@
                 android:icon="@drawable/baseline_brightness_4_white_24dp"
                 android:iconTint="?attr/textcolor"
                 android:title="Night Mode"
-                app:actionLayout="@layout/layout_switch"
+                app:actionLayout="@layout/layout_theme_switch"
+                />
+            <item
+                android:id="@+id/nav_lock"
+                android:icon="@drawable/baseline_screen_lock_portrait_white_24dp"
+                android:iconTint="?attr/textcolor"
+                android:title="Auto Lock"
+                app:actionLayout="@layout/layout_lock_switch"
                 />
         </menu>
     </item>

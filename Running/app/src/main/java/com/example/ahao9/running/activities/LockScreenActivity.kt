@@ -3,9 +3,9 @@ package com.example.ahao9.running.activities
 import android.app.Activity
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import com.example.ahao9.running.R
+import com.example.ahao9.running.R.id.iv_unlock
 import kotlinx.android.synthetic.main.activity_lock_screen.*
 
 class LockScreenActivity : Activity() {
@@ -21,6 +21,7 @@ class LockScreenActivity : Activity() {
 
         unlockDrawable = iv_unlock.drawable as AnimationDrawable
         unlockDrawable.start()
+        MainActivity.isLocked = true
     }
 
     private fun isPressOnUnlockView(x: Float, y: Float): Boolean {
@@ -42,6 +43,7 @@ class LockScreenActivity : Activity() {
                 if (flag) {
                     unlockDrawable.stop()
                     finish()
+                    MainActivity.isLocked = false
                     return true
                 }
             }
