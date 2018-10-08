@@ -3,22 +3,21 @@ In the beginning, we were trying to build a jump-related game. Jump distance dep
 
 But after 3 days trying, we think we are not able to learn openGL and complete this game within the specified date. So we decided to change our project idea o build a running-related project. It can trace the user's running route and draw it on the map, and calculating user's bmi. We know that our idea is kind of conventional, but we will exert as much as knowledge points that we learned during this period.
 
+Members:
+Hao Zhang && Mikael Ramo
+
 ## Requirement
 - Real phone
 - Android Studio
 
-## Installation
-### 1. Clone or download this repo.
-`git@github.com:HaoZhang95/Jump.git`
-### 2. Deploy application
-Open Android Studio --> build --> run
-### 3. Cautions
+## Cautions and Project Structure
 It requires GPS and Network permissions, the former one is used to locate yourself while running, the latter one is used to upload your running data to web database.
+![Route](https://i.imgur.com/y9e5Pyx.png)
 
 ## Knowledge required and covered
 ![Route](https://i.imgur.com/9L9ta0N.png)
 
-### 5. Features
+## Features
 - GPS location, measure distance
 - Draw real-time path on the map while running
 - Lock screen using proximity internal sensor
