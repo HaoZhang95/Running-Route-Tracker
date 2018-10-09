@@ -2,7 +2,7 @@
     <string name="app_name">Running</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">Test Account</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -97,15 +97,67 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
+
+    <string name="share">Share</string>
+    <string name="duration">Duration</string>
+    <string name="placeHolderDistance">12.44</string>
+    <string name="placeHolderDuration">00:47:00</string>
+    <string name="duration0">00:00:00</string>
+    <string name="km">km</string>
+    <string name="distanceTravelled">Distance</string>
+    <string name="autoLock">Auto Lock</string>
+    <string name="lock">Lock</string>
+    <string name="nightMode">Night mode</string>
+    <string name="acceleration">x,y,z acceleration: </string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="history">History</string>
+    <string name="running">Running</string>
+    <string name="startScan">Scan</string>
+    <string name="stopScan">Stop</string>
+    <string name="altitudeDisplay">Altitude (m)</string>
+    <string name="speedAverage">Average speed(m/s)</string>
+    <string name="speedDisplay">Speed (m/s)</string>
+    <string name="slide">Slide to unlock</string>
+    <string name="defaultWeightChange">6.0</string>
+    <string name="heightUnit">m</string>
+    <string name="defaultHeight">1.75</string>
+    <string name="defaultWeight">75.0</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="weightKg">Weight (kg)</string>
+    <string name="heightCm">Height (cm)</string>
+    <string name="time">2018-10-2 12:00:00</string>
+    <string name="timeText">Time</string>
+    <string name="last">Last time</string>
+    <string name="kg">kg</string>
+    <string name="gpsTitle">GPS ☆☆☆</string>
+    <string name="bmiValue"><u>19</u></string>
+    <string name="countdown">3</string>
+    <string name="start">Start</string>
     <string name="bmiHealthy">Healthy :)</string>
     <string name="bmiOverweight">Overweight</string>
+    <string name="BMI">BMI</string>
+    <string name="enterBmi">BMI: </string>
     <string name="bmiObses">Obese</string>
     <string name="bmiSlim">Slim</string>
     <string name="pause">Pause</string>
     <string name="peisu">00:00</string>
     <string name="altitude">0.00</string>
+    <string name="altitudeUnit">Altitude(m)</string>
     <string name="speed">0.00</string>
     <string name="distance">0.00KM</string>
     <string name="avgSpeed">0.00</string>
     <string name="ble_tips">1- Click to connect sensor\n2- When connected, long click press to disconect</string>
+
+  <!--   Content descriptions  -->
+    <string name="runningSelect">Select running activity</string>
+    <string name="cyclingSelect">Select cycling activity</string>
+    <string name="editBMI">Edit your height and weight</string>
+    <string name="bodyType">Prediction of your body type</string>
+    <string name="changeArrow">Arrow indicating gain or loss of weight</string>
+    <string name="sliderDesc">Unlock screen by sliding here</string>
+    <string name="runningIcon">Icon describing your type of activity</string>
+    <string name="startActivity">Start your selected activity</string>
+
 </resources>

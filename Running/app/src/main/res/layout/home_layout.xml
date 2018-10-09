@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="GPS ☆☆☆"
+            android:text="@string/gpsTitle"
             android:textColor="?attr/textcolor"
             android:visibility="visible"
             android:textSize="12sp"/>
@@ -50,7 +50,7 @@
         <LinearLayout
             android:id="@+id/temp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"
@@ -60,14 +60,16 @@
                 android:id="@+id/ivRunningType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/trance_run" />
+                android:src="@drawable/trance_run"
+                android:contentDescription="@string/runningSelect"/>
 
             <ImageView
                 android:id="@+id/ivBikeType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/trance_bike2" />
+                android:layout_marginStart="15dp"
+                android:src="@drawable/trance_bike2"
+                android:contentDescription="@string/cyclingSelect"/>
         </LinearLayout>
 
         <LinearLayout
@@ -88,9 +90,10 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
-                android:text="Start"
+                android:text="@string/start"
                 android:textColor="?attr/textcolor"
-                android:textSize="17sp"/>
+                android:textSize="17sp"
+                android:contentDescription="@string/startActivity"/>
 
         </LinearLayout>
     </RelativeLayout>
@@ -102,7 +105,7 @@
         android:layout_alignParentBottom="true"
         android:visibility="invisible">
 
-        <include layout="@layout/trace_running_layout"></include>
+        <include layout="@layout/trace_running_layout"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -111,6 +114,7 @@
         android:layout_height="match_parent"
         android:background="#84000000"
         android:clickable="true"
+        android:focusable="true"
         android:visibility="gone">
     </RelativeLayout>
 
@@ -120,14 +124,15 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:background="#84000000"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="3"
+            android:text="@string/countdown"
             android:gravity="center"
             android:background="@null"
             android:textColor="#FFFFFF"
