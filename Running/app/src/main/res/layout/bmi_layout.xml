@@ -70,7 +70,8 @@
                     android:layout_gravity="center"
                     android:text="@string/defaultWeight"
                     android:textColor="#000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:contentDescription="@string/userWeight"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,6 +80,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="1dp"
                     android:text="@string/kg"
+                    android:contentDescription="@string/userWeightUnit"
                     android:textColor="?attr/tintcolor"
                     android:textSize="16sp" />
 
@@ -206,7 +208,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="42dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -214,16 +216,17 @@
             android:id="@+id/ivBmiLevel"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_marginStart="18dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/bodyType"
             android:src="@drawable/bmi_1" />
 
         <ImageView
             android:id="@+id/ivBmiEdit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="52dp"
             android:contentDescription="@string/editBMI"
             android:src="@drawable/edit_data_selector" />
 
@@ -246,6 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bmiValue"
+            android:layout_marginStart="5dp"
             android:textSize="16sp"
             android:textColor="?attr/textcolor"/>
 

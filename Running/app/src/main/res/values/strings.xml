@@ -127,7 +127,7 @@
     <string name="height">Height</string>
     <string name="weightKg">Weight (kg)</string>
     <string name="heightCm">Height (cm)</string>
-    <string name="time">2018-10-2 12:00:00</string>
+    <string name="time">2018–10–2 12:00:00</string>
     <string name="timeText">Time</string>
     <string name="last">Last time</string>
     <string name="kg">kg</string>
@@ -159,5 +159,8 @@
     <string name="sliderDesc">Unlock screen by sliding here</string>
     <string name="runningIcon">Icon describing your type of activity</string>
     <string name="startActivity">Start your selected activity</string>
+    <string name="userWeight">Your weight is displayed here</string>
+    <string name="userWeightUnit">Your weights unit is displayed here</string>
+    <string name="avrSpeed">Your average speed displayed here</string>
 
 </resources>

@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/distanceTravelled"
-                    android:textColor="?attr/tintcolor"
+                    android:textColor="?attr/textcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/duration"
-                    android:textColor="?attr/tintcolor"
+                    android:textColor="?attr/textcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/llRecordBottomTop"
-            android:background="?attr/tintcolor" />
+            android:background="?attr/textcolor" />
 
 
         <LinearLayout
@@ -117,14 +117,14 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="?attr/textcolor"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speedDisplay"
-                    android:textColor="?attr/tintcolor"
-                    android:textSize="12sp"/>
+                    android:textColor="?attr/textcolor"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/altitude"
-                    android:textColor="?attr/tintcolor"
+                    android:textColor="?attr/textcolor"
                     android:textSize="12sp"/>
             </LinearLayout>
 

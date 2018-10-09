@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/distanceTravelled"
-                android:textColor="?attr/tintcolor"
+                android:textColor="?attr/textcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -52,14 +52,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/duration0"
-                android:textColor="#ffffff"
+                android:textColor="#000"
                 android:textSize="30sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/timeText"
-                android:textColor="?attr/tintcolor"
+                android:textColor="?attr/textcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -101,13 +101,14 @@
                     android:text="@string/speed"
                     android:textColor="?attr/textcolor"
                     android:textSize="20sp"
+                    android:contentDescription="@string/avrSpeed"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speedAverage"
-                    android:textColor="?attr/tintcolor"
+                    android:textColor="?attr/textcolor"
                     android:textSize="12sp"
                     />
 
@@ -136,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/altitudeUnit"
-                    android:textColor="?attr/tintcolor"
+                    android:textColor="?attr/textcolor"
                     android:textSize="12sp"
                     />
             </LinearLayout>
@@ -155,7 +156,7 @@
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
                 android:text="@string/lock"
-                android:textColor="?attr/textcolor"
+                android:textColor="#000"
                 android:textSize="17sp"/>
 
             <TextView
@@ -169,7 +170,7 @@
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
                 android:text="@string/pause"
-                android:textColor="?attr/textcolor"
+                android:textColor="#000"
                 android:textSize="17sp"/>
 
             <TextView
@@ -179,7 +180,7 @@
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
                 android:text="@string/stopScan"
-                android:textColor="?attr/textcolor"
+                android:textColor="#000"
                 android:textSize="17sp"/>
         </LinearLayout>
     </LinearLayout>
