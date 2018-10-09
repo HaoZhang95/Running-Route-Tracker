@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/altitude"
+                    android:text="@string/altitudeUnit"
                     android:textColor="?attr/textcolor"
                     android:textSize="12sp"/>
             </LinearLayout>
