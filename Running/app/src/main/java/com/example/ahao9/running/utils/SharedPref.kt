@@ -25,7 +25,7 @@ class SharedPref(val context: Context) {
      * this method will load the Night Mode State
      */
     fun loadNightModeState(): Boolean? {
-        return mySharedPref.getBoolean("NightMode", false)
+        return mySharedPref.getBoolean("NightMode", true)
     }
 
     /**
