@@ -25,7 +25,7 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/recordMapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.google.android.gms.maps.MapView>
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 
@@ -39,7 +39,8 @@
             android:id="@+id/llRecordBottomTop"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -59,8 +60,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Distance"
-                    android:textColor="?attr/tintcolor"
+                    android:text="@string/distanceTravelled"
+                    android:textColor="?attr/textcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -82,8 +83,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time Last"
-                    android:textColor="?attr/tintcolor"
+                    android:text="@string/duration"
+                    android:textColor="?attr/textcolor"
                     android:textSize="13sp"/>
             </LinearLayout>
 
@@ -93,14 +94,15 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/llRecordBottomTop"
-            android:background="?attr/tintcolor"></View>
+            android:background="?attr/textcolor" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/llRecordBottomTop"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -115,14 +117,14 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="?attr/textcolor"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Speed (m/s)"
-                    android:textColor="?attr/tintcolor"
-                    android:textSize="12sp"/>
+                    android:text="@string/speedDisplay"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,8 +145,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Altitude (m)"
-                    android:textColor="?attr/tintcolor"
+                    android:text="@string/altitudeUnit"
+                    android:textColor="?attr/textcolor"
                     android:textSize="12sp"/>
             </LinearLayout>
 

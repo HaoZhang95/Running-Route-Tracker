@@ -8,39 +8,34 @@
         <item
             android:id="@+id/nav_running"
             android:icon="@drawable/baseline_directions_run_white_24dp"
-            android:iconTint="?attr/textcolor"
-            android:title="Running" />
+
+            android:title="@string/running" />
         <item
             android:id="@+id/nav_bmi"
             android:icon="@drawable/baseline_bar_chart_white_24dp"
-            android:iconTint="?attr/textcolor"
-            android:title="BMI" />
+            android:title="@string/BMI" />
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/baseline_history_white_24dp"
-            android:iconTint="?attr/textcolor"
-            android:title="History" />
+            android:title="@string/history" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/baseline_bluetooth_searching_white_24dp"
-            android:iconTint="?attr/textcolor"
-            android:title="Bluetooth" />
+            android:title="@string/bluetooth" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="@string/action_settings">
         <menu>
             <item
                 android:id="@+id/nav_theme"
                 android:icon="@drawable/baseline_brightness_4_white_24dp"
-                android:iconTint="?attr/textcolor"
-                android:title="Night Mode"
+                android:title="@string/nightMode"
                 app:actionLayout="@layout/layout_theme_switch"
                 />
             <item
                 android:id="@+id/nav_lock"
                 android:icon="@drawable/baseline_screen_lock_portrait_white_24dp"
-                android:iconTint="?attr/textcolor"
-                android:title="Auto Lock"
+                android:title="@string/autoLock"
                 app:actionLayout="@layout/layout_lock_switch"
                 />
         </menu>

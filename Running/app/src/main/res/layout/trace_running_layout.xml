@@ -10,7 +10,8 @@
         android:id="@+id/llRunningBottomLayoutTopPart"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -24,7 +25,7 @@
                 android:id="@+id/tvRunningDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00KM"
+                android:text="@string/distance"
                 android:textColor="?attr/textcolor"
                 android:textSize="30sp"
                 />
@@ -32,8 +33,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Distance"
-                android:textColor="?attr/tintcolor"
+                android:text="@string/distanceTravelled"
+                android:textColor="?attr/textcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -50,15 +51,15 @@
                 android:id="@+id/tvRunningTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00:00"
-                android:textColor="#ffffff"
+                android:text="@string/duration0"
+                android:textColor="?attr/textcolor"
                 android:textSize="30sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time"
-                android:textColor="?attr/tintcolor"
+                android:text="@string/timeText"
+                android:textColor="?attr/textcolor"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -80,7 +81,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -96,17 +98,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="0.00"
+                    android:text="@string/speed"
                     android:textColor="?attr/textcolor"
                     android:textSize="20sp"
+                    android:contentDescription="@string/avrSpeed"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Average speed(m/s)"
-                    android:textColor="?attr/tintcolor"
-                    android:textSize="11sp"
+                    android:text="@string/speedAverage"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="12sp"
                     />
 
             </LinearLayout>
@@ -125,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="0.00"
+                    android:text="@string/speed"
                     android:textColor="?attr/textcolor"
                     android:textSize="20sp"
                     />
@@ -133,9 +136,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Altitude(m)"
-                    android:textColor="?attr/tintcolor"
-                    android:textSize="11sp"
+                    android:text="@string/altitudeUnit"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="12sp"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -152,8 +155,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
-                android:text="Lock"
-                android:textColor="?attr/textcolor"
+                android:text="@string/lock"
+                android:textColor="#000"
                 android:textSize="17sp"/>
 
             <TextView
@@ -166,8 +169,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/circle_orange"
                 android:gravity="center"
-                android:text="Pause"
-                android:textColor="?attr/textcolor"
+                android:text="@string/pause"
+                android:textColor="#000"
                 android:textSize="17sp"/>
 
             <TextView
@@ -176,8 +179,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/circle_deepblue"
                 android:gravity="center"
-                android:text="Stop"
-                android:textColor="?attr/textcolor"
+                android:text="@string/stopScan"
+                android:textColor="#000"
                 android:textSize="17sp"/>
         </LinearLayout>
     </LinearLayout>

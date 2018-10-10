@@ -11,5 +11,5 @@
     <!--connect ble page-->
     <color name="colorMainViewCardBackground">#302e3c</color>
     <color name="colorMainViewBackground">#737083</color>
-    <color name="colorText">#FFF</color>
+    <color name="colorText">#000000</color>
 </resources>
