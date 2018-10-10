@@ -1,5 +1,6 @@
 package com.example.ahao9.running.activities
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -8,6 +9,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -17,6 +19,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.util.Log
 import android.view.MenuItem
+import com.dongdongwu.mypermission.MyPermission
+import com.dongdongwu.mypermission.PermissionFailure
+import com.dongdongwu.mypermission.PermissionSuccess
 import com.example.ahao9.running.R
 import com.example.ahao9.running.fragments.BLEFragment
 import com.example.ahao9.running.fragments.BMIFragment
@@ -26,6 +31,7 @@ import com.example.ahao9.running.utils.SharedPref
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SensorEventListener {
@@ -46,6 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var proximitySensor: Sensor? = null
     companion object {
         var isLocked = false
+        const val REQUEST_PERMISSION_CODE = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +90,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             restartApp()
         }
 
+        MyPermission.with(this)
+                .setRequestCode(REQUEST_PERMISSION_CODE)
+                .setRequestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                .requestPermission();
+
         /**
          * setup auto lock screen
          */
@@ -97,6 +110,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+    }
+
+    /**
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
+    @PermissionSuccess(requestCode = REQUEST_PERMISSION_CODE)
+    private fun callPermissionSuccess() { }
+
+    @PermissionFailure(requestCode = REQUEST_PERMISSION_CODE)
+    private fun callPermissionFailure() {
+        toast("Permissions are Missing")
+        ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_PERMISSION_CODE)
+        finish()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        MyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     override fun onSensorChanged(event: SensorEvent) {
