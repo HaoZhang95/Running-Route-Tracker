@@ -10,7 +10,7 @@ Hao Zhang && Mikael Ramo
 - Real phone
 - Android Studio
 
-## Click the view demo video to help you understand code
+## View demo video to help you understand code
 [![Demo video](https://i.imgur.com/IPYnKJj.png)](https://youtu.be/qKfWnml2-UQ)
 
 
